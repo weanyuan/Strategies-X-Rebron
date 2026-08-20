@@ -12,6 +12,16 @@ if game.PlaceId ~= 3260590327 then
     local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("vote") -- it is what it is
     local GameWave = LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value") -- currennt wave you are on
 
+    local FinalWaveAtDifferentMode = {
+            ["Easy"] = 20,
+            ["Casual"] = 30,
+            ["Intermediate"] = 30,
+            ["Molten"] = 35,
+            ["Fallen"] = 40,
+            ["Hardcore"] = 50
+        }
+    local FinalWave = FinalWaveAtDifferentMode[RSDifficulty.Value]
+            
     local function CheckFolderExists(folder_path)
         if not isfolder(folder_path) then
             makefolder(folder_path)
@@ -193,7 +203,8 @@ if game.PlaceId ~= 3260590327 then
 
     function GetTimer()
         local Min, Sec = ConvertTimer(RSTimer.Value)
-        return {tonumber(GameWave.Text), Min, Sec + Recorder.SecondMili, tostring(TimerCheck)}
+        local Wave = tonumber(GameWave.Text)
+        return {(Wave and Wave*FinalWave) or 0, Min, Sec + Recorder.SecondMili, tostring(TimerCheck)}
     end
 
     Recorder.SecondMili = 0
@@ -309,7 +320,7 @@ if game.PlaceId ~= 3260590327 then
             appendstrat(`TDS:Option({TowerIndex}, "{OptionName}", "{Value}", {TimerStr})`)
         end,
         Skip = function(Args, Timer, RemoteCheck)
-            if tonumber(GameWave.Text) == 0 then
+            if not tonumber(GameWave.Text) then --Wave 0
                 return
             end
             SetStatus(`Skipped Wave`)
@@ -354,17 +365,8 @@ if game.PlaceId ~= 3260590327 then
 
     task.spawn(function()
         GameWave:GetPropertyChangedSignal("Text"):Wait()
-        local FinalWaveAtDifferentMode = {
-            ["Easy"] = 25,
-            ["Casual"] = 30,
-            ["Intermediate"] = 30,
-            ["Molten"] = 35,
-            ["Fallen"] = 40,
-            ["Hardcore"] = 50
-        }
-        local FinalWave = FinalWaveAtDifferentMode[RSDifficulty.Value]
         GameWave:GetPropertyChangedSignal("Text"):Connect(function()
-            if tonumber(GameWave.Text) == FinalWave then
+            if tonumber(GameWave.Text)*FinalWave == FinalWave then
                 repeat task.wait() until mainwindow.flags.autosellfarms
                 for i,v in ipairs(game.Workspace.Towers:GetChildren()) do
                     if v.Owner.Value == LocalPlayer.UserId and table.find(FarmsID, v.Name) then
