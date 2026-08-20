@@ -184,7 +184,7 @@ local UILibrary = getgenv().UILibrary or loadstring(game:HttpGet("https://raw.gi
 UILibrary.options.toggledisplay = 'Fill'
 UI = StratXLibrary.UI
 UtilitiesConfig = StratXLibrary.UtilitiesConfig
-
+print(MainLink.."TDSTools/ConvertFunc.lua")
 local Patcher = loadstring(game:HttpGet(MainLink.."TDSTools/ConvertFunc.lua", true))()--loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/ConvertFunc.lua", true))()
 function ParametersPatch(FuncsName,...)
 	if type(...) == "table" and #{...} == 1 then --select("#",...)
