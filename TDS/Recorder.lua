@@ -223,6 +223,7 @@ if game.PlaceId ~= 3260590327 then
             if typeof(RemoteCheck) ~= "Instance" then
                 return
             end
+            print(Timer[1],Timer[2],Timer[3])
             local Position = Args[3].Position
             local Rotation = Args[3].Rotation
             local TowerName = Args[4]
