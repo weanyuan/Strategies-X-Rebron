@@ -1190,7 +1190,7 @@ Functions.MatchMaking = function()
 		return
 	end
 	local TroopsOwned = GetTowersInfo()
-	local CanChangeMap = game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590)
+	local CanChangeMap = game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) or game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 --私人服务器
 	local CurrentMapList = {}
 	for i,v in next, Workspace:WaitForChild(Lobby):WaitForChild("Boards"):GetChildren() do
 		table.insert(CurrentMapList, v:WaitForChild("Hitboxes"):WaitForChild("Bottom"):WaitForChild("MapDisplay"):WaitForChild("Title").Text)
