@@ -91,6 +91,7 @@ local appendlog = function(...)
         return AppendFile(true,game:GetService("Players").LocalPlayer.Name.."'s log","StrategiesX/UserLogs",tostring(Text).."\n")
     end)
 end
+
 local LinkTable = {
     "https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/ckmhjvskfkmsStratFun2",
     "https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/autostratscode.txt"
