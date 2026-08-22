@@ -201,10 +201,13 @@ if game.PlaceId ~= 3260590327 then
         end
     end)
 
+    function GetCurrentWave()
+        return string.match(GameWave.Text, "(.+)/") or 0
+    end
+
     function GetTimer()
         local Min, Sec = ConvertTimer(RSTimer.Value)
-        local Wave = tonumber(GameWave.Text)
-        return {(Wave and Wave*FinalWave) or 0, Min, Sec + Recorder.SecondMili, tostring(TimerCheck)}
+        return {GetCurrentWave(), Min, Sec + Recorder.SecondMili, tostring(TimerCheck)}
     end
 
     Recorder.SecondMili = 0
@@ -321,14 +324,15 @@ if game.PlaceId ~= 3260590327 then
             appendstrat(`TDS:Option({TowerIndex}, "{OptionName}", "{Value}", {TimerStr})`)
         end,
         Skip = function(Args, Timer, RemoteCheck)
-            if not tonumber(GameWave.Text) then --Wave 0
+            print("Skip",GetCurrentWave())
+            if GetCurrentWave() == 0 then --Wave 0
                 return
             end
             SetStatus(`Skipped Wave`)
             local TimerStr = table.concat(Timer, ", ")
             appendstrat(`TDS:Skip({TimerStr})`)
         end,
-        Vote = function(Args, Timer, RemoteCheck)
+        --[[Vote = function(Args, Timer, RemoteCheck)
             local Difficulty = Args[3]
             local DiffTable = {
                 ["Easy"] = "Easy",
@@ -339,7 +343,7 @@ if game.PlaceId ~= 3260590327 then
             }
             GetMode = DiffTable[Difficulty] or Difficulty
             SetStatus(`Vote {GetMode}`)
-        end,
+        end,]]
         SelectLoadout = function(Args, Timer, RemoteCheck)
             local LoadoutName = Args[1]
             SetStatus(`Loadout Selected`)
@@ -354,7 +358,7 @@ if game.PlaceId ~= 3260590327 then
             return
         end
         local currentPrompt = VoteGUI:WaitForChild("prompt").Text
-        if currentPrompt == "Skip Wave?" and tonumber(GameWave.Text) ~= 0 then
+        if currentPrompt == "Skip Wave?" and GetCurrentWave() ~= 0 then
             Skipped = true
             local Timer = GetTimer()
             task.spawn(GenerateFunction["Skip"], true, Timer)
@@ -367,7 +371,7 @@ if game.PlaceId ~= 3260590327 then
     task.spawn(function()
         GameWave:GetPropertyChangedSignal("Text"):Wait()
         GameWave:GetPropertyChangedSignal("Text"):Connect(function()
-            if tonumber(GameWave.Text)*FinalWave == FinalWave then
+            if GetCurrentWave() == FinalWave then
                 repeat task.wait() until mainwindow.flags.autosellfarms
                 for i,v in ipairs(game.Workspace.Towers:GetChildren()) do
                     if v.Owner.Value == LocalPlayer.UserId and table.find(FarmsID, v.Name) then
@@ -418,6 +422,7 @@ if game.PlaceId ~= 3260590327 then
             coroutine.wrap(function(Args)
                 local Timer = GetTimer()
                 local RemoteFired = Self.InvokeServer(Self, unpack(Args))
+                print(GenerateFunction[Args[2]])
                 if GenerateFunction[Args[2]] then
                     GenerateFunction[Args[2]](Args, Timer, RemoteFired)
                 end
