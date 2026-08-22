@@ -1413,7 +1413,7 @@ task.spawn(function()
 
 	local IntermissionButtons = LocalPlayer.PlayerGui:WaitForChild("ReactGameIntermission"):WaitForChild("Frame"):WaitForChild("buttons")
 	local currentVeto = IntermissionButtons:WaitForChild("veto"):WaitForChild("value")
-	if UtilitiesConfig.PreferMatchmaking or currentVeto.Text ~= `Veto ({#Players:GetChildren()}/{#Players:GetChildren()})` or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) then
+	if UtilitiesConfig.PreferMatchmaking or currentVeto.Text ~= `Veto ({#Players:GetChildren()}/{#Players:GetChildren()})` or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) or game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then
 		prints("MatchMaking Enabled")
 		Functions.MatchMaking()
 	end
