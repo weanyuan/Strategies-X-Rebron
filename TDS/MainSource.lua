@@ -1334,14 +1334,14 @@ getgenv().maintenance = true
 
 function Strat.new()
 	local playerId = game:GetService("Players").LocalPlayer.UserId
-    for _,id in ipairs(easyBlackList) do
+    --[[for _,id in ipairs(easyBlackList) do
     	if id == playerId then
     		return
     	end
     end
 	if getgenv().maintenance then
 		return
-	end
+	end]]
 	local t = setmetatable({}, Strat)
 	for Funcname, Functable in next, StratXLibrary.Functions do
 		t[Funcname] = {
@@ -1374,6 +1374,7 @@ function Strat.new()
 	end
 	table.insert(StratXLibrary.Strat, t)
 	t.Index = #StratXLibrary.Strat
+	print(t)
 	return t
 end
 prints("Loaded Proxy Strat")
