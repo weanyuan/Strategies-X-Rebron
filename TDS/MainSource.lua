@@ -1342,7 +1342,7 @@ local easyBlackList = {
 	6135463763,
 }
 
-getgenv().maintenance = true
+--getgenv().maintenance = true
 
 function Strat.new()
 	local playerId = game:GetService("Players").LocalPlayer.UserId
@@ -1468,5 +1468,4 @@ task.spawn(function()
 end)
 prints(`Loaded Library. Took: {math.floor((os.clock() - OldTime)*1000)/1000}s`)
 StratXLibrary.Executed = true
-print(1)
 return Strat.new()
