@@ -571,7 +571,7 @@ if CheckPlace() then
 	end)
 
 	-- // AutoSkip & Auto Start Game
-	task.spawn(function()
+	pcall(function()
 		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container")
 		if VoteGUI:WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
