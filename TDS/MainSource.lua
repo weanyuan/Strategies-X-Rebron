@@ -42,9 +42,9 @@ getgenv().StratXLibrary = StratXLibrary
 
 --getgenv().StratXLibrary.ExecutedCount = 0
 getgenv().Functions = StratXLibrary.Functions
-StratXLibrary["_G.TowersContained"] = {}
-StratXLibrary["_G.TowersContained"].Index = 0
-getgenv()._G.TowersContained = StratXLibrary["_G.TowersContained"]
+StratXLibrary["TowersContained"] = {}
+StratXLibrary["TowersContained"].Index = 0
+_G.TowersContained = StratXLibrary["TowersContained"]
 StratXLibrary["ActionInfo"] = {
 	["Place"] = {0,0},
 	["Upgrade"] = {0,0},
@@ -535,7 +535,8 @@ if CheckPlace() then
     local RSHealthCurrent = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Current") -- your current base hp
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
 	 -- it is what it is
-    --local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+	local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+	
 	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
 	end
@@ -660,13 +661,13 @@ if CheckPlace() then
 			end
 		end)
 		-- // End Of Match
-		local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 		local Info = MatchGui:WaitForChild("RewardsScreen")
 		local Rewards
 
 		function CheckReward()
 			local RewardType, RewardAmount
 			repeat task.wait() until Info:FindFirstChild("RewardsSection")-- Rewards[1]
+			print("Got RewardsSection")
 			Rewards = Info:FindFirstChild("RewardsSection")
 			if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
 				 for i,v in ipairs(Rewards:GetChildren()) do
@@ -1237,8 +1238,9 @@ Functions.MatchMaking = function()
 
     -- // AutoSkip & Auto Start Game
 	task.delay(4,function()
-		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
-		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
+		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame")
+		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("container")
+		if VoteGUI:WaitForChild("votes"):WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
 				repeat task.wait() until StratXLibrary.Executed
 				RemoteFunction:InvokeServer("Voting", "Skip")
@@ -1246,9 +1248,9 @@ Functions.MatchMaking = function()
 			end)
 		end
 		StratXLibrary.ReadyState = false
-		repeat task.wait() until VoteGUI:FindFirstChild("vote")
+		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
 		print("Got Vote")
-		VoteGUI = VoteGUI:WaitForChild("vote")
+		VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
 		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
 			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
 				repeat

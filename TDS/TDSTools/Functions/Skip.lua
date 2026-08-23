@@ -17,14 +17,14 @@ return function(self, p1)
     SetActionInfo("Skip","Total")
     task.spawn(function()
         local SkipCheck
-        local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes") -- it is what it is
+        local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame") -- it is what it is
         if Wave == 0 then
             return
         end
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
             return
         end
-        repeat task.wait() until VoteGUI:FindFirstChild("vote")
+        repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
         print("Got vote skip")
         VoteGUI = VoteGUI:WaitForChild("vote")
         if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
