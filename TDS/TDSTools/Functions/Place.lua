@@ -173,6 +173,7 @@ return function(self, p1)
         ["TopPathUpgrade"] = 0,
         ["BottomPathUpgrade"] = 0
     }
+    print(#TowersContained,TowersContained[TempNum])
 
     local CurrentCount = StratXLibrary.CurrentCount
     local TowerTable = TowersContained[TempNum]
