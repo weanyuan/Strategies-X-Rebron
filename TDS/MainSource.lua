@@ -401,10 +401,9 @@ function SafeTeleport(remote)
 end
 
 function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
-	local GameWave = LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value") -- // Current wave you are on
-    local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- // end result
+    local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- // end result
 	local RSTimer = ReplicatedStorage:WaitForChild("State"):WaitForChild("Timer"):WaitForChild("Time") -- // Current game's timer
-	if Debug or tonumber(GameWave.Text) > Wave and not MatchGui.Visible then
+	if Debug or GetCurrentWave() > Wave and not MatchGui.Visible then
 		return true
 	end
 	local CurrentCount = StratXLibrary.CurrentCount
@@ -413,7 +412,7 @@ function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
 		if MatchGui.Visible or CurrentCount ~= StratXLibrary.RestartCount then
 			return false
 		end
-	until tonumber(GameWave.Text) == Wave and CheckTimer(InWave) -- // CheckTimer will return true when in wave and false when not in wave
+	until GetCurrentWave() == Wave and CheckTimer(InWave) -- // CheckTimer will return true when in wave and false when not in wave
 	if RSTimer.Value - TotalSec(Min,Sec) < -1 then
 		return true
 	end
@@ -703,35 +702,34 @@ if CheckPlace() then
 			end
 		end)
 		-- // End Of Match
+		local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+		local Info = MatchGui:WaitForChild("content"):WaitForChild("info")
+		local Rewards = Info:WaitForChild("rewards")
 
-		warn("Connected?")
-		StratXLibrary.SignalMatchEnd = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards").ChildAdded:Connect(function()
-			local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
-			local Info = MatchGui:WaitForChild("content"):WaitForChild("info")
-			local Rewards = Info:WaitForChild("rewards")
-
-			function CheckReward()
-				local RewardType, RewardAmount
-				repeat task.wait() until Rewards:FindFirstChild(1)-- Rewards[1]
-				if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
-					 for i,v in ipairs(Rewards:GetChildren()) do
-						 if v:IsA("Frame") then
-							 if v:WaitForChild("content"):FindFirstChild("icon"):IsA("ImageLabel") then
-								 if v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870325376" then
-									 RewardType = "Coins"
-									 RewardAmount = tonumber(v.content.textLabel.Text)
-									 break
-								 elseif v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
-									 RewardType = "Gems"
-									 RewardAmount = tonumber(v.content.textLabel.Text)
-								 end
+		function CheckReward()
+			local RewardType, RewardAmount
+			repeat task.wait() until Rewards:FindFirstChild(1)-- Rewards[1]
+			if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
+				 for i,v in ipairs(Rewards:GetChildren()) do
+					 if v:IsA("Frame") then
+						 if v:WaitForChild("content"):FindFirstChild("icon"):IsA("ImageLabel") then
+							 if v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870325376" then
+								 RewardType = "Coins"
+								 RewardAmount = tonumber(v.content.textLabel.Text)
+								 break
+							 elseif v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
+								 RewardType = "Gems"
+								 RewardAmount = tonumber(v.content.textLabel.Text)
 							 end
 						 end
 					 end
 				 end
-				return {RewardType, RewardAmount}
-			end
+			 end
+			return {RewardType, RewardAmount}
+		end
 
+		warn("Connected?")
+		StratXLibrary.SignalMatchEnd = MatchGui:GetAttributeChangedSignal("Visible"):Connect(function()
 			warn("Connection Ran!?")
 			prints("GameOver Changed")
 			local Remote
@@ -798,7 +796,7 @@ if CheckPlace() then
 					until VoteCheck
 					prints("VoteCheck Passed")
 				end)
-				repeat task.wait() until StratXLibrary.ReadyState or (tonumber(GameWave.Text) ~= nil and tonumber(GameWave.Text) <= 1) or (RSHealthCurrent.Value == RSHealthMax.Value)
+				repeat task.wait() until StratXLibrary.ReadyState or (GetCurrentWave() ~= nil and GetCurrentWave() <= 1) or (RSHealthCurrent.Value == RSHealthMax.Value)
 				prints("Prepare Set All ListNum To 1")
 				StratXLibrary.CurrentCount = StratXLibrary.RestartCount
 				for i,v in ipairs(StratXLibrary.Strat) do
