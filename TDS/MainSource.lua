@@ -1468,5 +1468,4 @@ task.spawn(function()
 end)
 prints(`Loaded Library. Took: {math.floor((os.clock() - OldTime)*1000)/1000}s`)
 StratXLibrary.Executed = true
-task.wait(1)
 return Strat.new()
