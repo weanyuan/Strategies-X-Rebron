@@ -401,7 +401,7 @@ function SafeTeleport(remote)
 end
 
 function GetCurrentWave()
-	return string.match(LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value").Text, "(.+)/") or 0
+	return tonumber(string.match(LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value").Text, "(.+)/")) or 0
 end
 
 function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
@@ -413,7 +413,7 @@ function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
 	local CurrentCount = StratXLibrary.CurrentCount
 	repeat
 		task.wait()
-		print(GetCurrentWave(),Wave,CheckTimer(InWave))
+		--print(GetCurrentWave(),Wave,CheckTimer(InWave))
 		if MatchGui.Visible or CurrentCount ~= StratXLibrary.RestartCount then
 			return false
 		end
