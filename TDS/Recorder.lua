@@ -9,7 +9,7 @@ if game.PlaceId ~= 3260590327 then
     local RSMode = ReplicatedStorage:WaitForChild("State"):WaitForChild("Mode") -- Survival or Hardcore check
     local RSDifficulty = ReplicatedStorage:WaitForChild("State"):WaitForChild("Difficulty") -- Survival's gamemodes
     local RSMap = ReplicatedStorage:WaitForChild("State"):WaitForChild("Map") --map's Name
-    local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container") -- it is what it is
+    local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame") -- it is what it is
     local GameWave = LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value") -- currennt wave you are on
 
     local FinalWaveAtDifferentMode = {
@@ -352,20 +352,23 @@ if game.PlaceId ~= 3260590327 then
     }
 
     local Skipped = false
-    VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
-        repeat task.wait() until mainwindow.flags.autoskip
-        if Skipped or VoteGUI:WaitForChild("count").Text ~= "0/1 Required" then
-            return
-        end
-        local currentPrompt = VoteGUI:WaitForChild("prompt").Text
-        if currentPrompt == "Skip Wave?" and GetCurrentWave() ~= 0 then
-            Skipped = true
-            local Timer = GetTimer()
-            task.spawn(GenerateFunction["Skip"], true, Timer)
-            ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
-            task.wait(2.5)
-            Skipped = false
-        end
+    task.spawn(function()
+        repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
+        VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
+            repeat task.wait() until mainwindow.flags.autoskip
+            if Skipped or VoteGUI:WaitForChild("count").Text ~= "0/1 Required" then
+                return
+            end
+            local currentPrompt = VoteGUI:WaitForChild("prompt").Text
+            if currentPrompt == "Skip Wave?" and GetCurrentWave() ~= 0 then
+                Skipped = true
+                local Timer = GetTimer()
+                task.spawn(GenerateFunction["Skip"], true, Timer)
+                ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
+                task.wait(2.5)
+                Skipped = false
+            end
+        end)
     end)
 
     task.spawn(function()
