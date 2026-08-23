@@ -190,11 +190,12 @@ return function(self, p1)
 
     task.spawn(function()
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
+            print("Return")
             return
         end
         print(GetCurrentWave(),"wave")
         if GetCurrentWave() == 0 then
-            task.wait(5)
+            task.wait(3)
         end
         TowerTable.PassedTimer = true
         local PlaceCheck, ErrorModel

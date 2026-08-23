@@ -414,6 +414,7 @@ function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
 	repeat
 		task.wait()
 		if MatchGui.Visible or CurrentCount ~= StratXLibrary.RestartCount then
+			print(false)
 			return false
 		end
 	until GetCurrentWave() == Wave and CheckTimer(InWave) -- // CheckTimer will return true when in wave and false when not in wave
