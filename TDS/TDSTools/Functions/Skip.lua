@@ -26,7 +26,7 @@ return function(self, p1)
         end
         repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
         print("Got vote skip")
-        VoteGUI = VoteGUI:WaitForChild("vote")
+        VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
         if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
             repeat
                 task.wait()
