@@ -534,7 +534,7 @@ if CheckPlace() then
     local RSMap = ReplicatedStorage:WaitForChild("State"):WaitForChild("Map") --map's Name
     local RSHealthCurrent = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Current") -- your current base hp
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
-    --local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container") -- it is what it is
+    local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes") -- it is what it is
     --local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
@@ -1236,7 +1236,6 @@ Functions.MatchMaking = function()
 
     -- // AutoSkip & Auto Start Game
 	task.delay(2,function()
-		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
 		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
 				repeat task.wait() until StratXLibrary.Executed
@@ -1245,7 +1244,7 @@ Functions.MatchMaking = function()
 			end)
 		end
 		StratXLibrary.ReadyState = false
-		task.wait(7)
+		repeat task.wait() until VoteGUI:FindFirstChild("vote")
 		VoteGUI = VoteGUI:WaitForChild("vote")
 		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
 			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
