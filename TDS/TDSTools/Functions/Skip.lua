@@ -17,7 +17,7 @@ return function(self, p1)
     SetActionInfo("Skip","Total")
     task.spawn(function()
         local SkipCheck
-        local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("vote") -- it is what it is
+        local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("vote",math.huge) -- it is what it is
         if Wave == 0 then
             return
         end
