@@ -16,7 +16,7 @@ local Patcher = {
                 table.remove(TowerList,i)
             end
         end
-        local GoldenPerks = _G.GoldenPerks or {}
+        local GoldenPerks = getgenv().GoldenPerks or {}
         if #GoldenPerks > 0 then
             TowerList["Golden"] = GoldenPerks
         end

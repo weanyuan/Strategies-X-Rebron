@@ -38,7 +38,7 @@ return function(self, p1)
                 return
             end
             OptionCheck = RemoteFunction:InvokeServer("Troops","Option","Set",{
-                ["Troop"] = TowersContained[Tower].Instance, 
+                ["Troop"] = _G.TowersContained[Tower].Instance, 
                 ["Name"] = OptName,
                 ["Value"] = OptValue,
             })

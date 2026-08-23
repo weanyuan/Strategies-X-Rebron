@@ -1,5 +1,5 @@
 print("Start")
-if _G.StratXLibrary and _G.StratXLibrary.Executed then
+if getgenv().StratXLibrary and getgenv().StratXLibrary.Executed then
 	if StratXLibrary.Strat[#StratXLibrary.Strat].Active then
 		return Strat.new()
 	else
@@ -38,13 +38,13 @@ CheckFolderExists(LocalFolder.."UserLogs")
 CheckFolderExists(LocalFolder.."Recorder")
 
 local StratXLibrary = {Functions = {}}
-_G.StratXLibrary = StratXLibrary
+getgenv().StratXLibrary = StratXLibrary
 
---_G.StratXLibrary.ExecutedCount = 0
-_G.Functions = StratXLibrary.Functions
-StratXLibrary["TowersContained"] = {}
-StratXLibrary["TowersContained"].Index = 0
-_G.TowersContained = StratXLibrary["TowersContained"]
+--getgenv().StratXLibrary.ExecutedCount = 0
+getgenv().Functions = StratXLibrary.Functions
+StratXLibrary["_G.TowersContained"] = {}
+StratXLibrary["_G.TowersContained"].Index = 0
+getgenv()._G.TowersContained = StratXLibrary["_G.TowersContained"]
 StratXLibrary["ActionInfo"] = {
 	["Place"] = {0,0},
 	["Upgrade"] = {0,0},
@@ -60,24 +60,24 @@ StratXLibrary["ActionInfo"] = {
 StratXLibrary.UI = {}
 StratXLibrary.RestartCount = 0
 StratXLibrary.CurrentCount = StratXLibrary.RestartCount
---StratXLibrary.MultiStratEnabled = _G.IsMultiStrat or false
+--StratXLibrary.MultiStratEnabled = getgenv().IsMultiStrat or false
 --[[StratXLibrary.MultiStratEnabled = true
-_G.GameSpoof = "Lobby"]]
+getgenv().GameSpoof = "Lobby"]]
 
 StratXLibrary.UtilitiesConfig = {
-	Camera = (_G.DefaultCam and tonumber(_G.DefaultCam)) or 2,
-	LowGraphics = _G.PotatoPC or false,
-	BypassGroup = _G.GroupBypass or false,
-	AutoBuyMissing = _G.BuyMissingTowers or false,
-	AutoPickups = _G.BattlePass or false,
-	RestartMatch = _G.AutoRestart or false,
-	TowersPreview = _G.Debug or false,
-	AutoSkip = _G.AutoSkip or false,
-	UseTimeScale = _G.UseTimeScale or false,
-	PreferMatchmaking = _G.PreferMatchmaking or _G.Matchmaking or false,
+	Camera = (getgenv().DefaultCam and tonumber(getgenv().DefaultCam)) or 2,
+	LowGraphics = getgenv().PotatoPC or false,
+	BypassGroup = getgenv().GroupBypass or false,
+	AutoBuyMissing = getgenv().BuyMissingTowers or false,
+	AutoPickups = getgenv().BattlePass or false,
+	RestartMatch = getgenv().AutoRestart or false,
+	TowersPreview = getgenv().Debug or false,
+	AutoSkip = getgenv().AutoSkip or false,
+	UseTimeScale = getgenv().UseTimeScale or false,
+	PreferMatchmaking = getgenv().PreferMatchmaking or getgenv().Matchmaking or false,
 	Webhook = {
 		WebhookEnabled = true,
-		Link = (_G.WebhookLink and tostring(_G.WebhookLink)) or "",
+		Link = (getgenv().WebhookLink and tostring(getgenv().WebhookLink)) or "",
 		HideUser = false,
 		UseNewFormat = false,
 		PlayerInfo = true,
@@ -181,7 +181,7 @@ local Mouse = LocalPlayer:GetMouse()
 local CurrentCamera = Workspace.CurrentCamera
 local OldCameraOcclusionMode = LocalPlayer.DevCameraOcclusionMode
 local VirtualUser = game:GetService("VirtualUser")
-local UILibrary = _G.UILibrary or loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/WallyUI.lua", true))()
+local UILibrary = getgenv().UILibrary or loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/WallyUI.lua", true))()
 UILibrary.options.toggledisplay = 'Fill'
 UI = StratXLibrary.UI
 UtilitiesConfig = StratXLibrary.UtilitiesConfig
@@ -249,7 +249,7 @@ function prints(...)
 	ConsoleInfo(Text)
 end
 
-_G.output = function(Text,Color)
+getgenv().output = function(Text,Color)
 	ConsolePrint(Color,"Info",Text)
 end
 
@@ -260,32 +260,32 @@ if isfile(LocalFolder.."UserConfig/UtilitiesConfig.txt") then
 	if Check then
 		UtilitiesConfig = GetConfig
 	end
-	if tonumber(_G.DefaultCam) and tonumber(_G.DefaultCam) <= 3 then
-		UtilitiesConfig.Camera = tonumber(_G.DefaultCam)
+	if tonumber(getgenv().DefaultCam) and tonumber(getgenv().DefaultCam) <= 3 then
+		UtilitiesConfig.Camera = tonumber(getgenv().DefaultCam)
 	end
-	if _G.WebhookLink and type(tostring(_G.WebhookLink)) == "string" then
-		UtilitiesConfig.Webhook.Link = tostring(_G.WebhookLink)
+	if getgenv().WebhookLink and type(tostring(getgenv().WebhookLink)) == "string" then
+		UtilitiesConfig.Webhook.Link = tostring(getgenv().WebhookLink)
 	end
-	if type(_G.PotatoPC) == "boolean" then
-		UtilitiesConfig.LowGraphics = _G.PotatoPC
+	if type(getgenv().PotatoPC) == "boolean" then
+		UtilitiesConfig.LowGraphics = getgenv().PotatoPC
 	end
-	if type(_G.AutoSkip) == "boolean" then
-		UtilitiesConfig.AutoSkip = _G.AutoSkip
+	if type(getgenv().AutoSkip) == "boolean" then
+		UtilitiesConfig.AutoSkip = getgenv().AutoSkip
 	end
-	if type(_G.AutoBuyMissing) == "boolean" then
-		UtilitiesConfig.AutoBuyMissing = _G.BuyMissingTowers
+	if type(getgenv().AutoBuyMissing) == "boolean" then
+		UtilitiesConfig.AutoBuyMissing = getgenv().BuyMissingTowers
 	end
-	if type(_G.AutoRestart) == "boolean" then
-		UtilitiesConfig.RestartMatch = _G.AutoRestart
+	if type(getgenv().AutoRestart) == "boolean" then
+		UtilitiesConfig.RestartMatch = getgenv().AutoRestart
 	end
-	if type(_G.Debug) == "boolean" then
-		UtilitiesConfig.TowersPreview = _G.Debug
+	if type(getgenv().Debug) == "boolean" then
+		UtilitiesConfig.TowersPreview = getgenv().Debug
 	end
-	if type(_G.UseTimeScale) == "boolean" then
-		UtilitiesConfig.UseTimeScale = _G.UseTimeScale
+	if type(getgenv().UseTimeScale) == "boolean" then
+		UtilitiesConfig.UseTimeScale = getgenv().UseTimeScale
 	end
-	if type(_G.PreferMatchmaking) == "boolean" or type(_G.Matchmaking) == "boolean" then
-		UtilitiesConfig.PreferMatchmaking = _G.PreferMatchmaking or _G.Matchmaking
+	if type(getgenv().PreferMatchmaking) == "boolean" or type(getgenv().Matchmaking) == "boolean" then
+		UtilitiesConfig.PreferMatchmaking = getgenv().PreferMatchmaking or getgenv().Matchmaking
 	end
 else
 	writefile(LocalFolder.."UserConfig/UtilitiesConfig.txt", game:GetService("HttpService"):JSONEncode(UtilitiesConfig))
@@ -298,7 +298,7 @@ function SaveUtilitiesConfig()
 	local Webhook = UI.Webhook
 	local RejoinSetting = UI.RejoinSetting
 	StratXLibrary.UtilitiesConfig = {
-		Camera = tonumber(_G.DefaultCam) or 2,
+		Camera = tonumber(getgenv().DefaultCam) or 2,
 		LowGraphics = UtilitiesTab.flags.LowGraphics,
 		BypassGroup = UtilitiesTab.flags.BypassGroup,
 		AutoBuyMissing = UtilitiesTab.flags.AutoBuyMissing,
@@ -310,7 +310,7 @@ function SaveUtilitiesConfig()
 		Webhook = {
 			WebhookEnabled = Webhook.flags.WebhookEnabled or false,
 			UseNewFormat = Webhook.flags.UseNewFormat or false,
-			Link = (#Webhook.flags.Link ~= 0 and Webhook.flags.Link) or (_G.WebhookLink and tostring(_G.WebhookLink)) or "",
+			Link = (#Webhook.flags.Link ~= 0 and Webhook.flags.Link) or (getgenv().WebhookLink and tostring(getgenv().WebhookLink)) or "",
 			HideUser = Webhook.flags.HideUser or false,
 			PlayerInfo = if type(Webhook.flags.PlayerInfo) == "boolean" then Webhook.flags.PlayerInfo else true,
 			GameInfo = if type(Webhook.flags.GameInfo) == "boolean" then Webhook.flags.GameInfo else true,
@@ -344,28 +344,28 @@ function TowersCheckHandler(...)
 	for i,v in next, {...} do
 		local Id = tonumber(v) or 0
 		local SkipTowerCheck
-		if not (TowersContained[Id] and typeof(TowersContained[Id].Instance) == "Instance") then
+		if not (_G.TowersContained[Id] and typeof(_G.TowersContained[Id].Instance) == "Instance") then
 			task.delay(45,function() --game has wave 0 now so increase it to make it works
 				SkipTowerCheck = true
 			end)
-			if CurrentCount == StratXLibrary.RestartCount and not TowersContained[Id] then
+			if CurrentCount == StratXLibrary.RestartCount and not _G.TowersContained[Id] then
 				ConsoleWarn(`Tower ID: {Id} Hasn't Created Yet`)
-				repeat task.wait() until (CurrentCount == StratXLibrary.RestartCount and TowersContained[Id]) or SkipTowerCheck
+				repeat task.wait() until (CurrentCount == StratXLibrary.RestartCount and _G.TowersContained[Id]) or SkipTowerCheck
 			end
-			if (CurrentCount == StratXLibrary.RestartCount and TowersContained[Id] and TowersContained[Id].Placed == false) and not SkipTowerCheck then
+			if (CurrentCount == StratXLibrary.RestartCount and _G.TowersContained[Id] and _G.TowersContained[Id].Placed == false) and not SkipTowerCheck then
 				task.delay(2, function()
-					if not (CurrentCount == StratXLibrary.RestartCount and TowersContained[Id].Instance and TowersContained[Id].Placed) then
-						ConsoleWarn(`Tower ID: {Id}, Type: \"{TowersContained[Id].TowerName}\" Hasn't Been Placed Yet. Waiting It To Be Placed`)
+					if not (CurrentCount == StratXLibrary.RestartCount and _G.TowersContained[Id].Instance and _G.TowersContained[Id].Placed) then
+						ConsoleWarn(`Tower ID: {Id}, Type: \"{_G.TowersContained[Id].TowerName}\" Hasn't Been Placed Yet. Waiting It To Be Placed`)
 					end
 				end)
-				repeat task.wait() until (CurrentCount == StratXLibrary.RestartCount and TowersContained[Id].Instance and TowersContained[Id].Placed) or SkipTowerCheck
+				repeat task.wait() until (CurrentCount == StratXLibrary.RestartCount and _G.TowersContained[Id].Instance and _G.TowersContained[Id].Placed) or SkipTowerCheck
 			end
 			if not (CurrentCount == StratXLibrary.RestartCount) then
 				return false
 			end
 			if SkipTowerCheck then
 				ConsoleError(`Can't Find Tower ID "{Id}" Instance`)
-				ConsoleWarn(`Tower ID: {Id}, Table {TowersContained[Id]}, Instance: {TowersContained[Id] and TowersContained[Id].Instance or "Nil"}`)
+				ConsoleWarn(`Tower ID: {Id}, Table {_G.TowersContained[Id]}, Instance: {_G.TowersContained[Id] and _G.TowersContained[Id].Instance or "Nil"}`)
 				return false
 			end
 		end
@@ -377,7 +377,7 @@ function GetTypeIndex(string,Id)
 	if type(string) == "string" and #string > 0 then
 		return string
 	end
-	return TowersContained[Id].TypeIndex
+	return _G.TowersContained[Id].TypeIndex
 end
 
 function ConvertTimer(number : number)
@@ -536,7 +536,7 @@ if CheckPlace() then
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
 	 -- it is what it is
     --local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
-	if #Players:GetChildren() > 1 and _G.Multiplayer["Enabled"] == false then
+	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
 	end
 
@@ -594,7 +594,7 @@ if CheckPlace() then
 		LocalPlayer.Character.HumanoidRootPart.CFrame = Part.CFrame + Vector3.new(0, 3.5, 0)
 	end)
 
-	--_G.OldPickups = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesTopBar"):WaitForChild("Frame"):WaitForChild("items"):WaitForChild("Operation I.C.E"):WaitForChild("text").Text
+	--getgenv().OldPickups = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesTopBar"):WaitForChild("Frame"):WaitForChild("items"):WaitForChild("Operation I.C.E"):WaitForChild("text").Text
 
 	-- // Game Cores
 	task.spawn(function()
@@ -709,7 +709,7 @@ if CheckPlace() then
 			if UtilitiesConfig.Webhook.WebhookEnabled then
 				task.spawn(function()
 					loadstring(game:HttpGet(MainLink.."TDSTools/Webhook.lua", true))()
-					repeat task.wait() until type(_G.SendCheck) == "table"
+					repeat task.wait() until type(getgenv().SendCheck) == "table"
 					prints("Sent Webhook Log")
 				end)
 			end
@@ -727,7 +727,7 @@ if CheckPlace() then
 				prints(`Match Lose. Strat Will Restart Shortly`)
 				StratXLibrary.ReadyState = false
 				task.wait(3)
-				for i,v in ipairs(TowersContained) do
+				for i,v in ipairs(_G.TowersContained) do
 					if v.TowerModel then
 						v.TowerModel:Destroy()
 					end
@@ -735,9 +735,9 @@ if CheckPlace() then
 						v.ErrorModel:Destroy()
 					end
 				end
-				table.clear(TowersContained)
-				TowersContained.Index = 0
-				prints("TowersContained",#TowersContained)
+				table.clear(_G.TowersContained)
+				_G.TowersContained.Index = 0
+				prints("_G.TowersContained",#_G.TowersContained)
 				for i,v in next, StratXLibrary["ActionInfo"] do
 					StratXLibrary["ActionInfo"][i][1] = 0
 					StratXLibrary["ActionInfo"][i][2] = 0
@@ -770,7 +770,7 @@ if CheckPlace() then
 				end
 				prints("Set All ListNum To 1")
 				task.wait(5)
-				--_G.OldPickups = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesTopBar"):WaitForChild("Frame"):WaitForChild("items"):WaitForChild("Operation I.C.E"):WaitForChild("text").Text
+				--getgenv().OldPickups = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesTopBar"):WaitForChild("Frame"):WaitForChild("items"):WaitForChild("Operation I.C.E"):WaitForChild("text").Text
 				StratXLibrary.ReadyState = false
 				if RSMode.Value == "Hardcore" or not LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):FindFirstChild("timescale") then
 					return
@@ -818,18 +818,18 @@ if CheckPlace() then
 				prints("Starting a New Match")
 				for i,v in ipairs(StratXLibrary.Strat) do
 					local MapInStrat = v.Map.Lists[#v.Map.Lists] and v.Map.Lists[#v.Map.Lists].Map
-					if _G.WeeklyChallenge then
+					if getgenv().WeeklyChallenge then
 						Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
 							["mode"] = "weeklyChallengeMap",
 							["count"] = 1,
-							["challenge"] = _G.WeeklyChallenge,
+							["challenge"] = getgenv().WeeklyChallenge,
 						})
 						SafeTeleport(Remote)
 					elseif table.find(SpecialMaps, MapInStrat) then
 						local SpecialTable = SpecialGameMode[MapInStrat]
     					if SpecialTable.mode == "halloween2024" then
 							Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-    							["difficulty"] = if _G.EventEasyMode then `{SpecialTable.difficulty}..Easy`else SpecialTable.difficulty,
+    							["difficulty"] = if getgenv().EventEasyMode then `{SpecialTable.difficulty}..Easy`else SpecialTable.difficulty,
     							["night"] = SpecialTable.night,
     							["count"] = 1,
     							["mode"] = SpecialTable.mode,
@@ -837,14 +837,14 @@ if CheckPlace() then
 							SafeTeleport(Remote)
     					elseif SpecialTable.mode == "plsDonate" then
 							Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-         						["difficulty"] = if _G.EventEasyMode then "PlsDonateHard" else SpecialTable.difficulty,
+         						["difficulty"] = if getgenv().EventEasyMode then "PlsDonateHard" else SpecialTable.difficulty,
          						["count"] = 1,
          						["mode"] = SpecialTable.mode,
     						})
 							SafeTeleport(Remote)
 						elseif SpecialTable.mode == "frostInvasion" then
 							Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-								["difficulty"] = if _G.EventEasyMode then "Easy" else "Hard",
+								["difficulty"] = if getgenv().EventEasyMode then "Easy" else "Hard",
 								["mode"] = SpecialTable.mode,
 								["count"] = 1,
 							})
@@ -886,7 +886,7 @@ if CheckPlace() then
 	prints("Loaded InGame Core")
 end
 --UI Setup
---_G.PlayersSection = {}
+--getgenv().PlayersSection = {}
 if not CheckPlace() then
 
 	-- // Platform Stand InLobby
@@ -931,13 +931,13 @@ if not CheckPlace() then
 
     --[[task.spawn(function()
         repeat task.wait(.3)
-        until _G.StratCreditsAuthor ~= nil
+        until getgenv().StratCreditsAuthor ~= nil
         local multitab = UtilitiesTab:DropSection("Multiplayer: Off")
-        if _G.Multiplayer.Enabled then
+        if getgenv().Multiplayer.Enabled then
             multitab:SetText("Multiplayer: On")
-            multitab:Section("Host:"..Players:GetNameFromUserIdAsync(_G.Multiplayer.Host))
-            for i = 1, _G.Multiplayer.Players do
-                _G.PlayersSection[v] = multitab:Section("")
+            multitab:Section("Host:"..Players:GetNameFromUserIdAsync(getgenv().Multiplayer.Host))
+            for i = 1, getgenv().Multiplayer.Players do
+                getgenv().PlayersSection[v] = multitab:Section("")
             end
         end
     end)]]
@@ -949,7 +949,7 @@ if CheckPlace() then
 	UtilitiesTab:Toggle("Show Towers Preview", {flag = "TowersPreview", default = UtilitiesConfig.TowersPreview}, function(bool)
 		local TowersFolder = if bool then Workspace.PreviewFolder else ReplicatedStorage.PreviewHolder
 		local ErrorsFolder = if bool then Workspace.PreviewErrorFolder else ReplicatedStorage.PreviewHolder
-		for i,v in ipairs(TowersContained) do
+		for i,v in ipairs(_G.TowersContained) do
 			if v.DebugTag then
 				v.DebugTag.Enabled = bool
 			end
@@ -992,7 +992,7 @@ if CheckPlace() then
 			local Pickups = Workspace:WaitForChild("Pickups")
 			while true do
 				for Index, Object in next, Pickups:GetChildren() do
-					if _G.DefaultCam ~= 1 then
+					if getgenv().DefaultCam ~= 1 then
 						game:GetService("TweenService"):Create(LocalPlayer.Character:FindFirstChild("HumanoidRootPart"), TweenInfo.new(0, Enum.EasingStyle.Linear), {CFrame = StratXLibrary.PlatformPart.CFrame +  Vector3.new(0, 3.3, 0)}):Play()
 						task.wait(.1)
 					end
@@ -1013,7 +1013,7 @@ if CheckPlace() then
 
 	local CamSetting = UtilitiesTab:DropSection("Camera Settings")
 	CamSetting:Button("Normal Camera",function()
-		_G.DefaultCam = 1
+		getgenv().DefaultCam = 1
 		SaveUtilitiesConfig()
 		LocalPlayer.Character.Humanoid.PlatformStand = false
 		LocalPlayer.Character.HumanoidRootPart.Anchored = false
@@ -1022,7 +1022,7 @@ if CheckPlace() then
 		LocalPlayer.DevCameraOcclusionMode = OldCameraOcclusionMode
 	end)
 	CamSetting:Button("Follow Enemies",function()
-		_G.DefaultCam = 2
+		getgenv().DefaultCam = 2
 		SaveUtilitiesConfig()
 		LocalPlayer.Character.Humanoid.PlatformStand = true
 		LocalPlayer.Character.HumanoidRootPart.Anchored = false
@@ -1030,7 +1030,7 @@ if CheckPlace() then
 		CurrentCamera.CameraType = "Follow"
 	end)
 	CamSetting:Button("Free Camera",function()
-		_G.DefaultCam = 3
+		getgenv().DefaultCam = 3
 		SaveUtilitiesConfig()
 		LocalPlayer.Character.Humanoid.PlatformStand = true
         LocalPlayer.Character.HumanoidRootPart.Anchored = true
@@ -1045,7 +1045,7 @@ Webhook:Toggle("Enabled", {default = UtilitiesConfig.Webhook.WebhookEnabled or f
 Webhook:Toggle("Apply New Format", {default = UtilitiesConfig.Webhook.UseNewFormat or false, flag = "UseNewFormat"})
 Webhook:Section("Webhook Link:                             ")
 Webhook:TypeBox("Webhook Link", {default = UtilitiesConfig.Webhook.Link, cleartext = false, flag = "Link"})
-if _G.FeatureConfig and _G.FeatureConfig.CustomLog then
+if getgenv().FeatureConfig and getgenv().FeatureConfig.CustomLog then
 	Webhook:Toggle("Disable SL's Custom Log", {default = UtilitiesConfig.Webhook.DisableCustomLog or false, flag = "DisableCustomLog"})
 end
 Webhook:Toggle("Hide Username", {default = UtilitiesConfig.Webhook.HideUser or false, flag = "HideUser"})
@@ -1098,25 +1098,25 @@ end)
 end]]
 
 task.spawn(function()
-	repeat task.wait(.3) until _G.StratCreditsAuthor ~= nil
-	if (type(_G.StratCreditsAuthor) == "string" and #_G.StratCreditsAuthor > 0) or type(_G.StratCreditsAuthor) == "number" then
+	repeat task.wait(.3) until getgenv().StratCreditsAuthor ~= nil
+	if (type(getgenv().StratCreditsAuthor) == "string" and #getgenv().StratCreditsAuthor > 0) or type(getgenv().StratCreditsAuthor) == "number" then
 		UtilitiesTab:Section("==Strat Creators==")
-		UtilitiesTab:Section(tostring(_G.StratCreditsAuthor))
-	elseif type(_G.StratCreditsAuthor) == "table" then
-		for i,v in next, _G.StratCreditsAuthor do
+		UtilitiesTab:Section(tostring(getgenv().StratCreditsAuthor))
+	elseif type(getgenv().StratCreditsAuthor) == "table" then
+		for i,v in next, getgenv().StratCreditsAuthor do
 			if (type(v) == "string" and #v > 0) or type(v) == "number" then
 				UtilitiesTab:Section(tostring(v))
 			end
 		end
 	end
 
-	--[[repeat task.wait(.3) until _G.Multiplayer ~= nil
+	--[[repeat task.wait(.3) until getgenv().Multiplayer ~= nil
 	local multitab = UtilitiesTab:DropSection("Multiplayer: Off")
-	if _G.Multiplayer.Enabled then
+	if getgenv().Multiplayer.Enabled then
 		multitab:SetText("Multiplayer: On")
-		multitab:Section("Host:"..Players:GetNameFromUserIdAsync(_G.Multiplayer.Host))
-		for i = 1, _G.Multiplayer.Players do
-			_G.PlayersSection[v] = multitab:Section("")
+		multitab:Section("Host:"..Players:GetNameFromUserIdAsync(getgenv().Multiplayer.Host))
+		for i = 1, getgenv().Multiplayer.Players do
+			getgenv().PlayersSection[v] = multitab:Section("")
 		end
 	end]]
 end)
@@ -1329,7 +1329,7 @@ StratXLibrary.Strat = {}
 StratXLibrary.Global = {Map = {}}
 StratXLibrary.__index = StratXLibrary
 
-_G.Strat = {Lib = StratXLibrary}
+getgenv().Strat = {Lib = StratXLibrary}
 Strat.__index = Strat;
 
 local FunctionConfig = {
@@ -1343,7 +1343,7 @@ local easyBlackList = {
 	6135463763,
 }
 
---_G.maintenance = true
+--getgenv().maintenance = true
 
 function Strat.new()
 	local playerId = game:GetService("Players").LocalPlayer.UserId
@@ -1352,7 +1352,7 @@ function Strat.new()
     		return
     	end
     end
-	if _G.maintenance then
+	if getgenv().maintenance then
 		return
 	end
 	local t = setmetatable({}, Strat)

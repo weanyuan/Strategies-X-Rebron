@@ -30,10 +30,10 @@ return function(self, p1)
                         return
                     end
                     SoldCheck = RemoteFunction:InvokeServer("Troops","Sell",{
-                        ["Troop"] = TowersContained[v].Instance
+                        ["Troop"] = _G.TowersContained[v].Instance
                     })
                     task.wait()
-                until SoldCheck or not TowersContained[v].Instance:FindFirstChild("HumanoidRootPart")
+                until SoldCheck or not _G.TowersContained[v].Instance:FindFirstChild("HumanoidRootPart")
                 local TowerType = GetTypeIndex(tableinfo["TypeIndex"],v)
                 SetActionInfo("Sell")
                 ConsoleInfo((not SoldCheck and "Already " or "").."Sold Tower Index: "..v..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")

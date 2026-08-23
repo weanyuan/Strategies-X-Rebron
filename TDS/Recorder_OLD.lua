@@ -4,37 +4,37 @@ local State = ReplicatedStorage.State;
 local RS = game:WaitForChild('ReplicatedStorage')
 local RSRF = RS:WaitForChild("RemoteFunction")
 local RSRE = RS:WaitForChild("RemoteEvent")
-_G.Towers = {}
-_G.GoldenPerks = {}
-_G.Generated = ""
---_G.StratName..".txt"
+getgenv().Towers = {}
+getgenv().GoldenPerks = {}
+getgenv().Generated = ""
+--getgenv().StratName..".txt"
 for i,v in pairs(game:GetService("CoreGui"):GetDescendants()) do if v:IsA("Frame") and v.Name == "What do you do?" then v:Remove() end end
 for TowerName, Tower in next, game.ReplicatedStorage.RemoteFunction:InvokeServer("Session", "Search", "Inventory.Troops") do
 		if (Tower.Equipped) then
-			table.insert(_G.Towers, TowerName)
+			table.insert(getgenv().Towers, TowerName)
 			if (Tower.GoldenPerks) then
-				table.insert(_G.GoldenPerks, TowerName)
+				table.insert(getgenv().GoldenPerks, TowerName)
 			end
 		end;
 	end;
-for c=1,5 do if _G.Towers[c] == nil then _G.Towers[c] = "nil" end end
+for c=1,5 do if getgenv().Towers[c] == nil then getgenv().Towers[c] = "nil" end end
 local gperksl = ""
-if _G.GoldenPerks[1] then
-    gperksl = gperksl.."_G.GoldenPerks = {"
-    for i,v in pairs(_G.GoldenPerks) do
+if getgenv().GoldenPerks[1] then
+    gperksl = gperksl.."getgenv().GoldenPerks = {"
+    for i,v in pairs(getgenv().GoldenPerks) do
         gperksl = gperksl..'"'..v..'",'
     end
     gperksl = gperksl.."}\n"
 end
     if gperksl ~= "" then
-        _G.Generated = _G.Generated.."--"..RecVersion.."\n"..gperksl..'local '.._G.APIVar..' = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/MainSource.lua", true))() \n'.._G.APIVar..':Loadout("'.._G.Towers[1]..'", "'.._G.Towers[2]..'", "'.._G.Towers[3]..'", "'.._G.Towers[4]..'", "'.._G.Towers[5]..'") \n'.._G.APIVar..':Map("'..game:GetService("ReplicatedStorage").State.Map.Value..'", true, "'..game:GetService("ReplicatedStorage").State.Mode.Value..'")\n';
+        getgenv().Generated = getgenv().Generated.."--"..RecVersion.."\n"..gperksl..'local '..getgenv().APIVar..' = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/MainSource.lua", true))() \n'..getgenv().APIVar..':Loadout("'..getgenv().Towers[1]..'", "'..getgenv().Towers[2]..'", "'..getgenv().Towers[3]..'", "'..getgenv().Towers[4]..'", "'..getgenv().Towers[5]..'") \n'..getgenv().APIVar..':Map("'..game:GetService("ReplicatedStorage").State.Map.Value..'", true, "'..game:GetService("ReplicatedStorage").State.Mode.Value..'")\n';
     else
-        _G.Generated = _G.Generated .. "--"..RecVersion.."\n"..'local '.._G.APIVar..' = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/MainSource.lua", true))() \n'.._G.APIVar..':Loadout("'.._G.Towers[1]..'", "'.._G.Towers[2]..'", "'.._G.Towers[3]..'", "'.._G.Towers[4]..'", "'.._G.Towers[5]..'") \n'.._G.APIVar..':Map("'..game:GetService("ReplicatedStorage").State.Map.Value..'", true, "'..game:GetService("ReplicatedStorage").State.Mode.Value..'")\n';
+        getgenv().Generated = getgenv().Generated .. "--"..RecVersion.."\n"..'local '..getgenv().APIVar..' = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/Strategies-X/main/MainSource.lua", true))() \n'..getgenv().APIVar..':Loadout("'..getgenv().Towers[1]..'", "'..getgenv().Towers[2]..'", "'..getgenv().Towers[3]..'", "'..getgenv().Towers[4]..'", "'..getgenv().Towers[5]..'") \n'..getgenv().APIVar..':Map("'..game:GetService("ReplicatedStorage").State.Map.Value..'", true, "'..game:GetService("ReplicatedStorage").State.Mode.Value..'")\n';
     end
 function sendw(message)
 spawn(function()
-if _G.Webhook ~= "WEBHOOK (OPTIONAL)" then
-local url = _G.Webhook
+if getgenv().Webhook ~= "WEBHOOK (OPTIONAL)" then
+local url = getgenv().Webhook
 local data = {
 	["username"] = "TDS Recorder LOGGER",
 	["content"] = message
@@ -50,7 +50,7 @@ print("Webhook sent")
 end
 end)
 end
-if _G.LoggerWindow then
+if getgenv().LoggerWindow then
     if game.CoreGui:FindFirstChild("AutoStratsLogger") then
         game.CoreGui:FindFirstChild("AutoStratsLogger"):Remove()
     end
@@ -185,7 +185,7 @@ if _G.LoggerWindow then
             return v
         end
     end
-    _G.outputRec = function(msg, color)
+    getgenv().outputRec = function(msg, color)
         local hours = os.date("*t")["hour"]
         local mins = os.date("*t")["min"]
         local sec = os.date("*t")["sec"]
@@ -212,9 +212,9 @@ if _G.LoggerWindow then
 end
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/banbuskox/dfhtyxvzexrxgfdzgzfdvfdz/main/jsdnfjdsfdjnsmvkjhlkslzLIB", true))()
 if game.PlaceId == 5591597781 then
-_G.recstatus = "Recording"
-if _G.LoggerWindow then
-    _G.outputRec("Recording")
+getgenv().recstatus = "Recording"
+if getgenv().LoggerWindow then
+    getgenv().outputRec("Recording")
 end
 local function Convert(Seconds)
     return math.floor(Seconds / 60), Seconds % 60;
@@ -245,8 +245,8 @@ function CheckIfUpgrade(troop)
     local discountAmount = troop.Replicator:GetAttribute("DiscountBuff")
     local troopAssets = game:GetService("ReplicatedStorage").Assets.Troops[troopType]
     local nextUpgradePrice = require(troopAssets["Stats"]).Upgrades[upgradeNum+1].Cost
-    if table.find(_G.GoldenPerks, troopType) then
-        nextUpgradePrice = require(troopAssets["Stats_Golden"]).Upgrades[upgradeNum+1].Cost
+    if table.find(getgenv().GoldenPerks, troopType) then
+        nextUpgradePrice = require(troopAssets["Statsgetgenv()olden"]).Upgrades[upgradeNum+1].Cost
     end
     if game:GetService("ReplicatedStorage").State.Difficulty.Value == "Hardcore" then
         nextUpgradePrice = math.floor(nextUpgradePrice*1.5)
@@ -263,8 +263,8 @@ end
 function CheckIfPlace(troopType)
     local troopAssets = game:GetService("ReplicatedStorage").Assets.Troops[troopType]
     local placePrice = require(troopAssets["Stats"]).Price
-    if table.find(_G.GoldenPerks, troopType) then
-        placePrice = require(troopAssets["Stats_Golden"]).Price
+    if table.find(getgenv().GoldenPerks, troopType) then
+        placePrice = require(troopAssets["Statsgetgenv()olden"]).Price
     end
     if game:GetService("ReplicatedStorage").State.Difficulty.Value == "Hardcore" then
         placePrice = math.floor(placePrice*1.5)
@@ -310,7 +310,7 @@ w:Section("TimePassed")
         local seconds = t % 60
         local minutes = math.floor(t / 60) % 60
         labelx.Text = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
-        _G.TimePassed = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
+        getgenv().TimePassed = "Time Passed : "..TimeConverter(minutes)..":"..TimeConverter(seconds)
         end
     end)
 w:Section("")
@@ -318,10 +318,10 @@ w:Button("Auto Chain (One Time Use)", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/autochainv1"))()
 end)
 w:Button("Auto Chain V2 (Multiple Uses)", function()
-if not _G.OtherCOAV2 then
+if not getgenv().OtherCOAV2 then
 loadstring(game:HttpGet("https://raw.githubusercontent.com/wxzex/mmsautostratcontinuation/main/tdsautochainv2"))()
 spawn(function()
-repeat task.wait() until _G.Coms ~= nil
+repeat task.wait() until getgenv().Coms ~= nil
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local State = ReplicatedStorage.State;
 local Wave = tonumber(stateRep:GetAttribute("Wave"));
@@ -332,17 +332,17 @@ local HalftTime = false
 if Wave ~= 0 and game.Workspace:FindFirstChild("PathArrow") then
 HalftTime = true
 end
-_G.Generated = _G.Generated .. _G.APIVar..":AutoChain(".._G.Coms[1].Name..", ".._G.Coms[2].Name..", ".._G.Coms[3].Name..", "..Wave..", "..TM..", "..TS..".".._G.WaveMillisecond..", "..tostring(HalftTime or "false")..")\n";
-_G.Coms = nil
-_G.recstatus = "AutoChainV2 Activated"
-if _G.LoggerWindow then
-    _G.outputRec("AutoChainV2 Activated")
+getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":AutoChain("..getgenv().Coms[1].Name..", "..getgenv().Coms[2].Name..", "..getgenv().Coms[3].Name..", "..Wave..", "..TM..", "..TS.."."..getgenv().WaveMillisecond..", "..tostring(HalftTime or "false")..")\n";
+getgenv().Coms = nil
+getgenv().recstatus = "AutoChainV2 Activated"
+if getgenv().LoggerWindow then
+    getgenv().outputRec("AutoChainV2 Activated")
 end
 end)
 else
-    _G.recstatus = "Can't activate AutoChainV2"
-    if _G.LoggerWindow then
-        _G.outputRec("Can't activate AutoChainV2")
+    getgenv().recstatus = "Can't activate AutoChainV2"
+    if getgenv().LoggerWindow then
+        getgenv().outputRec("Can't activate AutoChainV2")
     end
 end
 end)
@@ -360,20 +360,20 @@ local Wave = tonumber(stateRep:GetAttribute("Wave"));
 local Timer = State.Timer;
 local CurTime = Timer.Time.Value;
 local TM, TS = Convert(CurTime);
-_G.Generated = _G.Generated .. _G.APIVar..":SellAllFarms( "..Wave..", "..TM..", "..TS..".".._G.WaveMillisecond..")\n";
+getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":SellAllFarms( "..Wave..", "..TM..", "..TS.."."..getgenv().WaveMillisecond..")\n";
 end)
 w:Section("\\/ SAVE \\/")
 w:Button("Save", function()
-    writefile(_G.StratName..".txt", _G.Generated)
+    writefile(getgenv().StratName..".txt", getgenv().Generated)
 end)
 w:Section("Auto_Save")
 spawn(function()
-    _G.AutoSave = 25
+    getgenv().AutoSave = 25
     while task.wait(1) do
-        _G.AutoSave = _G.AutoSave - 1
-        if _G.AutoSave == 0 then
-            writefile(_G.StratName..".txt", _G.Generated)
-            _G.AutoSave = 25
+        getgenv().AutoSave = getgenv().AutoSave - 1
+        if getgenv().AutoSave == 0 then
+            writefile(getgenv().StratName..".txt", getgenv().Generated)
+            getgenv().AutoSave = 25
         end
     end
 end)
@@ -388,12 +388,12 @@ end
 task.wait()
 until labelx
 while task.wait(0.1) do
-    labely.Text = "Auto Saving in: "..tostring(_G.AutoSave)
+    labely.Text = "Auto Saving in: "..tostring(getgenv().AutoSave)
 end
 end)
 spawn(function()
 while task.wait() do
-labelx.Text = _G.recstatus
+labelx.Text = getgenv().recstatus
 end
 end)
 end
@@ -433,37 +433,37 @@ local Towers = {};
 local GameTowers = game.Workspace.Towers;
 
 spawn(function()
-repeat task.wait() until _G.RecorderSync
+repeat task.wait() until getgenv().RecorderSync
 local ReplicatedStorage = game:GetService("ReplicatedStorage");
 local State = ReplicatedStorage.State;
 local Wave = tonumber(stateRep:GetAttribute("Wave"));
 local Timer = State.Timer;
 local CurTime = Timer.Time.Value;
 local TM, TS = Convert(CurTime);
-_G.Generated = _G.Generated .. _G.APIVar..":AutoChain(".._G.Commanders[1].Name..", ".._G.Commanders[2].Name..", ".._G.Commanders[3].Name..", "..Wave..", "..TM..", "..TS..".".._G.WaveMillisecond..")\n";
-_G.recstatus = "Activated AutoChain"
-if _G.LoggerWindow then
-    _G.outputRec("Activated AutoChain")
+getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":AutoChain("..getgenv().Commanders[1].Name..", "..getgenv().Commanders[2].Name..", "..getgenv().Commanders[3].Name..", "..Wave..", "..TM..", "..TS.."."..getgenv().WaveMillisecond..")\n";
+getgenv().recstatus = "Activated AutoChain"
+if getgenv().LoggerWindow then
+    getgenv().outputRec("Activated AutoChain")
 end
 sendw("Activated AutoChain")
 end)
 
-_G.GoldenPerks = {}
+getgenv().GoldenPerks = {}
 for TowerName, Tower in next, game.ReplicatedStorage.RemoteFunction:InvokeServer("Session", "Search", "Inventory.Troops") do
     if (Tower.Equipped) then
         if (Tower.GoldenPerks) then
-            table.insert(_G.GoldenPerks, TowerName)
+            table.insert(getgenv().GoldenPerks, TowerName)
         end
     end;
 end;
 function checkIfGolden(Tower)
-    return table.find(_G.GoldenPerks, Tower)
+    return table.find(getgenv().GoldenPerks, Tower)
 end
 local changeThen = 0
 game:GetService("ReplicatedStorage").State.Timer.Time:GetPropertyChangedSignal("Value"):Connect(function()
     changeThen = changeThen + 1
     local changeNow = changeThen
-    _G.WaveMillisecond = 0
+    getgenv().WaveMillisecond = 0
     for i=1,9 do
         if changeThen > changeNow then
             break
@@ -472,7 +472,7 @@ game:GetService("ReplicatedStorage").State.Timer.Time:GetPropertyChangedSignal("
         if changeThen > changeNow then
             break
         end
-        _G.WaveMillisecond = _G.WaveMillisecond + 1
+        getgenv().WaveMillisecond = getgenv().WaveMillisecond + 1
     end
 end)
 
@@ -484,19 +484,19 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
             local Position = PositionData.Position;
             if wasDid and type(wasDid) ~= "string" then
             if PositionData.Rotation.X > 0 or PositionData.Rotation.Y > 0 or PositionData.Rotation.Z > 0 then
-                _G.Generated = _G.Generated .. _G.APIVar..":Place('"..Tower.."', "..Position.X..", "..Position.Y..", "..Position.Z..", "..Wave..", "..TM..", "..TS.."."..Msi..", true, "..tostring(PositionData.Rotation.X)..", "..tostring(PositionData.Rotation.Y)..", "..tostring(PositionData.Rotation.Z)..", "..tostring(HalftTime or "false")..")\n";
+                getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Place('"..Tower.."', "..Position.X..", "..Position.Y..", "..Position.Z..", "..Wave..", "..TM..", "..TS.."."..Msi..", true, "..tostring(PositionData.Rotation.X)..", "..tostring(PositionData.Rotation.Y)..", "..tostring(PositionData.Rotation.Z)..", "..tostring(HalftTime or "false")..")\n";
             else
-                _G.Generated = _G.Generated .. _G.APIVar..":Place('"..Tower.."', "..Position.X..", "..Position.Y..", "..Position.Z..", "..Wave..", "..TM..", "..TS.."."..Msi..", false, 0, 0, 0, "..tostring(HalftTime or "false")..")\n";
+                getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Place('"..Tower.."', "..Position.X..", "..Position.Y..", "..Position.Z..", "..Wave..", "..TM..", "..TS.."."..Msi..", false, 0, 0, 0, "..tostring(HalftTime or "false")..")\n";
             end
-                _G.recstatus = "Placed "..Tower
-                if _G.LoggerWindow then
-                    _G.outputRec("Placed "..Tower)
+                getgenv().recstatus = "Placed "..Tower
+                if getgenv().LoggerWindow then
+                    getgenv().outputRec("Placed "..Tower)
                 end
             sendw("Placed "..Tower)
             else
-                _G.recstatus = "Failed To Place "..Tower
-                if _G.LoggerWindow then
-                    _G.outputRec("Failed To Place"..Tower)
+                getgenv().recstatus = "Failed To Place "..Tower
+                if getgenv().LoggerWindow then
+                    getgenv().outputRec("Failed To Place"..Tower)
                 end
                 sendw("Failed To Place "..Tower)
             end
@@ -505,10 +505,10 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
             if not Info.Recorder then
                 local ReplicatedStorage = game:GetService("ReplicatedStorage");
                 local Index = Info.Troop.Name
-                _G.Generated = _G.Generated .. _G.APIVar..":Sell("..Index..", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
-                _G.recstatus = "Sold "..Info.Troop.Name
-                if _G.LoggerWindow then
-                    _G.outputRec("Sold "..Info.Troop.Name.." ("..getTroopType(Info.Troop)..")")
+                getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Sell("..Index..", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+                getgenv().recstatus = "Sold "..Info.Troop.Name
+                if getgenv().LoggerWindow then
+                    getgenv().outputRec("Sold "..Info.Troop.Name.." ("..getTroopType(Info.Troop)..")")
                 end
                 sendw("Sold "..Info.Troop.Name.." ("..getTroopType(Info.Troop)..")")
             end
@@ -518,16 +518,16 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
             repeat task.wait() until Troop.Troop:FindFirstChild("Owner")
             if Troop.Troop:FindFirstChild("Owner").Value == game.Players.LocalPlayer.UserId then
             if wasDid ~= false then
-            _G.Generated = _G.Generated .. _G.APIVar..":Upgrade("..Index..", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
-            _G.recstatus = "Upgraded "..Troop.Troop.Name
-            if _G.LoggerWindow then
-                _G.outputRec("Upgraded "..Troop.Troop.Name)
+            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Upgrade("..Index..", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+            getgenv().recstatus = "Upgraded "..Troop.Troop.Name
+            if getgenv().LoggerWindow then
+                getgenv().outputRec("Upgraded "..Troop.Troop.Name)
             end
             sendw("Upgraded "..Index.." ("..getTroopType(Troop.Troop)..")")
             else
-                _G.recstatus = "Failed To Upgrade "..Troop.Troop.Name
-                if _G.LoggerWindow then
-                    _G.outputRec("Failed To Upgrade "..Troop.Troop.Name)
+                getgenv().recstatus = "Failed To Upgrade "..Troop.Troop.Name
+                if getgenv().LoggerWindow then
+                    getgenv().outputRec("Failed To Upgrade "..Troop.Troop.Name)
                 end
                 sendw("Failed To Upgrade "..Troop.Troop.Name)
             end
@@ -536,10 +536,10 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
             local Troop = args[4]
             local Index = Troop.Troop.Name
             local Target = Troop.Target
-            _G.Generated = _G.Generated .. _G.APIVar..":Target("..Index..", "..Wave..", \""..Target.."\", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
-            _G.recstatus = "Changed Target "..Troop.Troop.Name
-            if _G.LoggerWindow then
-                _G.outputRec("Changed Target "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
+            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Target("..Index..", "..Wave..", \""..Target.."\", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+            getgenv().recstatus = "Changed Target "..Troop.Troop.Name
+            if getgenv().LoggerWindow then
+                getgenv().outputRec("Changed Target "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
             end
             sendw("Changed Target "..Troop.Troop.Name.." ("..getTroopType(Troop.Troop)..")")
         elseif args[2] == "Abilities" and args[3] == "Activate" then
@@ -547,29 +547,29 @@ local function passArgs(args, Msi, Wave, TM, TS, HalftTime, wasDid)
             local Troop, Ability = Info.Troop, Info.Name;
             local Index = Info.Troop.Name
             if Info.AutoChain == nil then
-                _G.Generated = _G.Generated .. _G.APIVar..":Ability("..Index..", \""..Ability.."\", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
-                _G.recstatus = "Activated "..Info.Name.." In "..Info.Troop.Name
-                if _G.LoggerWindow then
-                    _G.outputRec("Activated "..Info.Name.." In "..Info.Troop.Name)
+                getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Ability("..Index..", \""..Ability.."\", "..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+                getgenv().recstatus = "Activated "..Info.Name.." In "..Info.Troop.Name
+                if getgenv().LoggerWindow then
+                    getgenv().outputRec("Activated "..Info.Name.." In "..Info.Troop.Name)
                 end
                 sendw("Activated "..Info.Name.." In "..Info.Troop.Name)
             end
         end
     elseif args[1] == "Voting" and args[2] == "Skip" then
-        _G.Generated = _G.Generated .. _G.APIVar..":Skip("..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
-        _G.recstatus = "Skipped Wave"
-        if _G.LoggerWindow then
-            _G.outputRec("Skipped Wave")
+        getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Skip("..Wave..", "..TM..", "..TS.."."..Msi..", "..tostring(HalftTime or "false")..")\n";
+        getgenv().recstatus = "Skipped Wave"
+        if getgenv().LoggerWindow then
+            getgenv().outputRec("Skipped Wave")
         end
         sendw("Skipped Wave")
     elseif args[1] == "Difficulty" and args[2] == "Vote" then
         local Difficulty = args[3]
         local DiffTable = {["Easy"] = "Normal", ["Normal"] = "Molten", ["Fallen"] = "Fallen", ["Intermediate"] = "Intermediate"}
         if game:GetService("ReplicatedStorage").State.Mode.Value == "Survival" then
-            _G.Generated = _G.Generated .. _G.APIVar..":Mode('"..Difficulty.."' --[[ !DONT TOUCH! THIS IS CORRECT, IN GAME FILES "..DiffTable[Difficulty].." IS NAMED "..Difficulty.." ]])\n";
-            _G.recstatus = "Voted For Difficulty"
-            if _G.LoggerWindow then
-                _G.outputRec("Voted For Difficulty")
+            getgenv().Generated = getgenv().Generated .. getgenv().APIVar..":Mode('"..Difficulty.."' --[[ !DONT TOUCH! THIS IS CORRECT, IN GAME FILES "..DiffTable[Difficulty].." IS NAMED "..Difficulty.." ]])\n";
+            getgenv().recstatus = "Voted For Difficulty"
+            if getgenv().LoggerWindow then
+                getgenv().outputRec("Voted For Difficulty")
             end
             sendw("Voted For Difficulty")
         end
@@ -581,7 +581,7 @@ old = hookmetamethod(game, "__namecall", function(self, ...)
     if getnamecallmethod() == "InvokeServer" and self.name == "RemoteFunction" and not table.find(args, "Rec") then
         local thread = coroutine.running()
         coroutine.wrap(function(args, stateRep)
-            local Msi = _G.WaveMillisecond
+            local Msi = getgenv().WaveMillisecond
             local Wave = tonumber(stateRep:GetAttribute("Wave"))
             local function Convert(Seconds) return math.floor(Seconds / 60), Seconds % 60; end
             local TM, TS = Convert(game.ReplicatedStorage.State.Timer.Time.Value)

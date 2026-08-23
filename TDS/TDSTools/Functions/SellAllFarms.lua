@@ -16,7 +16,7 @@ return function(self, p1)
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
             return
         end
-        for i,v in next, TowersContained do
+        for i,v in next, _G.TowersContained do
             if v.TowerName == "Farm" and v.Instance then
                 RemoteFunction:InvokeServer("Troops","Sell",{
                     ["Troop"] = v.Instance

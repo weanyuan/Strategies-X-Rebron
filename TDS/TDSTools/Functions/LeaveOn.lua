@@ -92,12 +92,12 @@ return function(self, p1)
 			    SafeTeleport(Remote)
 			elseif SpecialTable.mode == "frostInvasion" then
 				Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-					["difficulty"] = if _G.EventEasyMode then "Easy" else "Hard",
+					["difficulty"] = if getgenv().EventEasyMode then "Easy" else "Hard",
 					["mode"] = SpecialTable.mode,
 					["count"] = 1,
 				})
 			    SafeTeleport(Remote)
-			elseif _G.WeeklyChallenge then
+			elseif getgenv().WeeklyChallenge then
 				Remote = RemoteFunction:InvokeServer("Multiplayer","v2:start",{
 					["mode"] = "weeklyChallengeMap",
 					["count"] = 1,

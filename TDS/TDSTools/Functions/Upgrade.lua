@@ -36,15 +36,15 @@ return function(self, p1)
                 return
             end
             UpgradeCheck = RemoteFunction:InvokeServer("Troops","Upgrade","Set",{
-                ["Troop"] = TowersContained[Tower].Instance,
+                ["Troop"] = _G.TowersContained[Tower].Instance,
                 ["Path"] = Path
             })
             task.wait()
         until typeof(UpgradeCheck) == "boolean" and UpgradeCheck or SkipCheck
         if Path == 1 then
-            TowersContained[Tower].TopPathUpgrade += 1
+            _G.TowersContained[Tower].TopPathUpgrade += 1
         elseif Path == 2 then
-            TowersContained[Tower].BottomPathUpgrade += 1
+            _G.TowersContained[Tower].BottomPathUpgrade += 1
         end
         local TowerType = GetTypeIndex(tableinfo["TypeIndex"],Tower)
         if CurrentCount ~= StratXLibrary.RestartCount then

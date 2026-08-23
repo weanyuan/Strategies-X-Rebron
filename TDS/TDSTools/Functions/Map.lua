@@ -96,13 +96,13 @@ return function(self, p1)
             return
         end
         for i,v in next, Workspace.Lobby.Elevators:GetChildren() do
-            if _G.WeeklyChallenge then
+            if getgenv().WeeklyChallenge then
                 RemoteFunction:InvokeServer("Multiplayer","v2:start",{
                     ["mode"] = "weeklyChallengeMap",
                     ["count"] = 1,
-                    ["challenge"] = _G.WeeklyChallenge,
+                    ["challenge"] = getgenv().WeeklyChallenge,
                 })
-                prints(`Weekly Challenge Selected: {_G.WeeklyChallenge}`)
+                prints(`Weekly Challenge Selected: {getgenv().WeeklyChallenge}`)
                 return
             elseif SpecialGameMode[MapName] then
                 local SpecialTable = SpecialGameMode[MapName]
@@ -122,20 +122,20 @@ return function(self, p1)
                 RemoteFunction:InvokeServer("Multiplayer","single_create")
                 if SpecialTable.mode == "halloween2024" then
                     RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-                        ["difficulty"] = if _G.EventEasyMode then `{SpecialTable.difficulty}..Easy` else SpecialTable.difficulty,
+                        ["difficulty"] = if getgenv().EventEasyMode then `{SpecialTable.difficulty}..Easy` else SpecialTable.difficulty,
                         ["night"] = SpecialTable.night,
                         ["count"] = 1,
                         ["mode"] = SpecialTable.mode,
                     })
                 elseif SpecialTable.mode == "plsDonate" then
                     RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-                        ["difficulty"] = if _G.EventEasyMode then "PlsDonate" else SpecialTable.difficulty,
+                        ["difficulty"] = if getgenv().EventEasyMode then "PlsDonate" else SpecialTable.difficulty,
                         ["count"] = 1,
                         ["mode"] = SpecialTable.mode,
                     })
                 elseif SpecialTable.mode == "frostInvasion" then
                     RemoteFunction:InvokeServer("Multiplayer","v2:start",{
-                        ["difficulty"] = if _G.EventEasyMode then "Easy" else SpecialTable.difficulty,
+                        ["difficulty"] = if getgenv().EventEasyMode then "Easy" else SpecialTable.difficulty,
                         ["mode"] = SpecialTable.mode,
                         ["count"] = 1,
                     })

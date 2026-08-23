@@ -12,7 +12,7 @@ local PlayerInfo = StratXLibrary.UI.PlayerInfo.Property
 
 --Pickups Stuff
 
-local OldPickups = _G.OldPickups
+local OldPickups = getgenv().OldPickups
 local CurrentPickups = LocalPlayer.PlayerGui.ReactOverridesTopBar.Frame.items["Operation I.C.E"].text.Text
 OldPickups = string.gsub(OldPickups, "%D", "")
 CurrentPickups = string.gsub(CurrentPickups, "%D", "")
@@ -283,5 +283,5 @@ Embed.AddField("Total Bells:", CommaText(CurrentPickups).. " :bell:")
 Embed.AddField("----------------- TROOPS INFO ---------------", "```m\n"..CheckTower().."```", false)
 
 if #UtilitiesConfig.Webhook.Link ~= 0 then
-	_G.SendCheck = Webhook:Send()
+	getgenv().SendCheck = Webhook:Send()
 end

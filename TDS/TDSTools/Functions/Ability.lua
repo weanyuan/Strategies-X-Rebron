@@ -36,13 +36,13 @@ return function(self, p1)
             if not TowersCheckHandler(Tower) then
                 return
             end
-            if Ability == "Call Of Arms" and TowersContained[Tower].AutoChain then
+            if Ability == "Call Of Arms" and _G.TowersContained[Tower].AutoChain then
                 SetActionInfo("Ability")
                 ConsoleInfo("Skipped Ability (AutoChain Enabled) On Tower Index: "..Tower..", Type: \""..TowerType.."\", (Wave "..Wave..", Min: "..Min..", Sec: "..Sec..", InBetween: "..tostring(InWave)..")")
                 return
             end
             AbilityCheck = RemoteFunction:InvokeServer("Troops","Abilities","Activate",{
-                ["Troop"] = TowersContained[Tower].Instance,
+                ["Troop"] = _G.TowersContained[Tower].Instance,
                 ["Name"] = Ability,
                 ["Data"] = Data,
             })

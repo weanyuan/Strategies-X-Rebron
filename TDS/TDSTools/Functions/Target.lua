@@ -26,7 +26,7 @@ return function(self, p1)
             return
         end
         RemoteFunction:InvokeServer("Troops","Target","Set",{
-            ["Troop"] = TowersContained[Tower].Instance,
+            ["Troop"] = _G.TowersContained[Tower].Instance,
             ["Target"] = Target,
         })
         local TowerType = GetTypeIndex(tableinfo["TypeIndex"],Tower)

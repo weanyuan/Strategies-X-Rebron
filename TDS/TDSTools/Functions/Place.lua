@@ -19,7 +19,7 @@ end
 function StackPosition(Position,SkipCheck)
     local Position = if typeof(Position) == "Vector3" then Position else Vector3.new(0,0,0)
     local PositionY = Position.Y
-    for i,v in ipairs(TowersContained) do
+    for i,v in ipairs(_G.TowersContained) do
         --if v.Position and v.Placed and (math.floor(v.Position.X) == math.floor(Position.X) and math.floor(v.Position.Z) == math.floor(Position.Z)) and (v.Position - Position).magnitude < 5 then (math.abs(v.Position.X - Position.X) < 1 and math.abs(v.Position.Z - Position.Z) < 1)
         if not (v.Position) then -- and v.Placed
             continue
@@ -160,9 +160,9 @@ return function(self, p1)
         return
     end
     SetActionInfo("Place","Total")
-    TowersContained.Index += 1
-    local TempNum = TowersContained.Index
-    TowersContained[TempNum] = {
+    _G.TowersContained.Index += 1
+    local TempNum = _G.TowersContained.Index
+    _G.TowersContained[TempNum] = {
         ["TowerName"] = Tower,
         ["Placed"] = false,
         ["TypeIndex"] = "Nil",
@@ -175,7 +175,7 @@ return function(self, p1)
     }
 
     local CurrentCount = StratXLibrary.CurrentCount
-    local TowerTable = TowersContained[TempNum]
+    local TowerTable = _G.TowersContained[TempNum]
     repeat task.wait() until StratXLibrary.AllowPlace
 
     local TowerModel = AddFakeTower(TowerTable.TowerName)
@@ -251,7 +251,7 @@ return function(self, p1)
         if ErrorModel then
             ErrorModel.Parent = PreviewHolder
         end
-        if _G.Debug then
+        if getgenv().Debug then
             task.spawn(DebugTower,TowerTable.Instance)
         end
         local TowerType = GetTypeIndex(tableinfo["TypeIndex"],TempNum)
