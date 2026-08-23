@@ -1246,6 +1246,7 @@ Functions.MatchMaking = function()
 		end
 		StratXLibrary.ReadyState = false
 		repeat task.wait() until VoteGUI:FindFirstChild("vote")
+		print("Got Vote")
 		VoteGUI = VoteGUI:WaitForChild("vote")
 		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
 			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
