@@ -662,11 +662,12 @@ if CheckPlace() then
 		-- // End Of Match
 		local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 		local Info = MatchGui:WaitForChild("RewardsScreen")
-		local Rewards = Info:WaitForChild("RewardsSection",math.huge)
+		local Rewards
 
 		function CheckReward()
 			local RewardType, RewardAmount
-			repeat task.wait() until Rewards:FindFirstChild(1)-- Rewards[1]
+			repeat task.wait() until Info:FindFirstChild("RewardsSection")-- Rewards[1]
+			Rewards = Info:FindFirstChild("RewardsSection")
 			if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
 				 for i,v in ipairs(Rewards:GetChildren()) do
 					 if v:IsA("Frame") then
