@@ -1284,7 +1284,7 @@ Functions.MatchMaking = function()
 				   RemoteFunction:InvokeServer("Voting", "Skip")
 				   SetActionInfo("Skip","Total")
 				   SetActionInfo("Skip")
-				   ConsoleInfo(`Skipped Wave {tonumber(GameWave.Text)}`)
+				   ConsoleInfo(`Skipped Wave {GetCurrentWave()}`)
 			   end
 		end)
 	end)
