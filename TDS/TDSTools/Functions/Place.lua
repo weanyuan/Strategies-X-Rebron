@@ -194,7 +194,7 @@ return function(self, p1)
         end
         print(GetCurrentWave(),"wave")
         if GetCurrentWave() == 0 then
-            task.wait(2)
+            task.wait(5)
         end
         TowerTable.PassedTimer = true
         local PlaceCheck, ErrorModel
