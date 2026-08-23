@@ -400,6 +400,10 @@ function SafeTeleport(remote)
     until success or attemptIndex == ATTEMPT_LIMIT
 end
 
+function GetCurrentWave()
+	return string.match(LocalPlayer.PlayerGui:WaitForChild("ReactGameTopGameDisplay"):WaitForChild("Frame"):WaitForChild("wave"):WaitForChild("container"):WaitForChild("value").Text, "(.+)/") or 0
+end
+
 function TimeWaveWait(Wave,Min,Sec,InWave,Debug)
     local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- // end result
 	local RSTimer = ReplicatedStorage:WaitForChild("State"):WaitForChild("Timer"):WaitForChild("Time") -- // Current game's timer
