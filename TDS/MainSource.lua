@@ -569,6 +569,52 @@ if CheckPlace() then
 			TimerCheck = false
 		end
 	end)
+	-- // AutoSkip & Auto Start Game
+	local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container",15)
+	if VoteGUI:WaitForChild("prompt").Text == "Ready?" then --Event GameMode
+		task.spawn(function()
+			repeat task.wait() until StratXLibrary.Executed
+			RemoteFunction:InvokeServer("Voting", "Skip")
+			prints("Ready Signal Fired")
+		end)
+	end
+	StratXLibrary.ReadyState = false
+	StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
+		if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
+			repeat
+				task.wait()
+			until VoteGUI:WaitForChild("count").Text == `0/{#Players:GetChildren()} Required`
+		end
+		if VoteGUI.Position ~= UDim2.new(0.5, 0, 0.5, 0) then --UDim2.new(scale_x, offset_x, scale_y, offset_y)
+			return
+		end
+		local currentPrompt = VoteGUI:WaitForChild("prompt").Text
+		   if currentPrompt == "Ready?" or currentPrompt == "Skip Cutscene?" then --Event GameMode
+		task.wait(0.5)
+			   RemoteFunction:InvokeServer("Voting", "Skip")
+			   StratXLibrary.ReadyState = true
+			if currentPrompt == "Ready?" then
+				prints("Ready Signal Fired")
+			elseif currentPrompt == "Skip Cutscene?" then
+				prints("Skipped Cutscene")
+			end
+			   return
+		   end
+		   if not UtilitiesConfig.AutoSkip then
+			   repeat
+				   task.wait()
+				   if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
+					   return
+				   end
+			   until UtilitiesConfig.AutoSkip
+		   end
+		   if currentPrompt == "Skip Wave?" then
+			   RemoteFunction:InvokeServer("Voting", "Skip")
+			   SetActionInfo("Skip","Total")
+			   SetActionInfo("Skip")
+			   ConsoleInfo(`Skipped Wave {tonumber(GameWave.Text)}`)
+		   end
+	end)
 
 	-- // Platform Stand InGame
 	task.spawn(function()
@@ -628,55 +674,6 @@ if CheckPlace() then
 		end
 
 		repeat task.wait() until Workspace:FindFirstChild("NPCs")
-
-		-- // AutoSkip & Auto Start Game
-		
-		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container")
-		if VoteGUI:WaitForChild("prompt").Text == "Ready?" then --Event GameMode
-			task.spawn(function()
-				repeat task.wait() until StratXLibrary.Executed
-				RemoteFunction:InvokeServer("Voting", "Skip")
-				prints("Ready Signal Fired")
-			end)
-		end
-		StratXLibrary.ReadyState = false
-		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
-			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
-				repeat
-					task.wait()
-				until VoteGUI:WaitForChild("count").Text == `0/{#Players:GetChildren()} Required`
-			end
-			if VoteGUI.Position ~= UDim2.new(0.5, 0, 0.5, 0) then --UDim2.new(scale_x, offset_x, scale_y, offset_y)
-				return
-			end
-			local currentPrompt = VoteGUI:WaitForChild("prompt").Text
-			   if currentPrompt == "Ready?" or currentPrompt == "Skip Cutscene?" then --Event GameMode
-			task.wait(0.5)
-				   RemoteFunction:InvokeServer("Voting", "Skip")
-				   StratXLibrary.ReadyState = true
-				if currentPrompt == "Ready?" then
-					prints("Ready Signal Fired")
-				elseif currentPrompt == "Skip Cutscene?" then
-					prints("Skipped Cutscene")
-				end
-				   return
-			   end
-			   if not UtilitiesConfig.AutoSkip then
-				   repeat
-					   task.wait()
-					   if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
-						   return
-					   end
-				   until UtilitiesConfig.AutoSkip
-			   end
-			   if currentPrompt == "Skip Wave?" then
-				   RemoteFunction:InvokeServer("Voting", "Skip")
-				   SetActionInfo("Skip","Total")
-				   SetActionInfo("Skip")
-				   ConsoleInfo(`Skipped Wave {tonumber(GameWave.Text)}`)
-			   end
-		end)
-
 		local NPCObject
 		game:GetService("RunService").RenderStepped:Connect(function()
 			if NPCObject then
@@ -1199,7 +1196,7 @@ Functions.MatchMaking = function()
 		return
 	end
 	local TroopsOwned = GetTowersInfo()
-	local CanChangeMap = game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) or game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 --私人服务器
+	local CanChangeMap = game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590)
 	local CurrentMapList = {}
 	for i,v in next, Workspace:WaitForChild(Lobby):WaitForChild("Boards"):GetChildren() do
 		table.insert(CurrentMapList, v:WaitForChild("Hitboxes"):WaitForChild("Bottom"):WaitForChild("MapDisplay"):WaitForChild("Title").Text)
@@ -1422,7 +1419,7 @@ task.spawn(function()
 
 	local IntermissionButtons = LocalPlayer.PlayerGui:WaitForChild("ReactGameIntermission"):WaitForChild("Frame"):WaitForChild("buttons")
 	local currentVeto = IntermissionButtons:WaitForChild("veto"):WaitForChild("value")
-	if UtilitiesConfig.PreferMatchmaking or currentVeto.Text ~= `Veto ({#Players:GetChildren()}/{#Players:GetChildren()})` or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) or game.PrivateServerId ~= "" and game.PrivateServerOwnerId ~= 0 then
+	if UtilitiesConfig.PreferMatchmaking or currentVeto.Text ~= `Veto ({#Players:GetChildren()}/{#Players:GetChildren()})` or game:GetService("MarketplaceService"):UserOwnsGamePassAsync(LocalPlayer.UserId, 10518590) then
 		prints("MatchMaking Enabled")
 		Functions.MatchMaking()
 	end
