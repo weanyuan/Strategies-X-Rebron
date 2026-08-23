@@ -532,7 +532,7 @@ if CheckPlace() then
     local RSHealthCurrent = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Current") -- your current base hp
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
     local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("vote") -- it is what it is
-    local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+    --local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
 	end
@@ -703,31 +703,35 @@ if CheckPlace() then
 			end
 		end)
 		-- // End Of Match
-		local Info = MatchGui:WaitForChild("content"):WaitForChild("info")
-		local Rewards = Info:WaitForChild("rewards")
-		function CheckReward()
-			local RewardType, RewardAmount
-			repeat task.wait() until Rewards:FindFirstChild(1)-- Rewards[1]
-			if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
-         		for i,v in ipairs(Rewards:GetChildren()) do
-         			if v:IsA("Frame") then
-         				if v:WaitForChild("content"):FindFirstChild("icon"):IsA("ImageLabel") then
-         					if v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870325376" then
-         						RewardType = "Coins"
-         						RewardAmount = tonumber(v.content.textLabel.Text)
-         						break
-         					elseif v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
-         						RewardType = "Gems"
-         						RewardAmount = tonumber(v.content.textLabel.Text)
-         					end
-         				end
-         			end
-         		end
-     		end
-			return {RewardType, RewardAmount}
-		end
+
 		warn("Connected?")
-		StratXLibrary.SignalMatchEnd = MatchGui:GetPropertyChangedSignal("Visible"):Connect(function()
+		StratXLibrary.SignalMatchEnd = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards").ChildAdded:Connect(function()
+			local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
+			local Info = MatchGui:WaitForChild("content"):WaitForChild("info")
+			local Rewards = Info:WaitForChild("rewards")
+
+			function CheckReward()
+				local RewardType, RewardAmount
+				repeat task.wait() until Rewards:FindFirstChild(1)-- Rewards[1]
+				if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
+					 for i,v in ipairs(Rewards:GetChildren()) do
+						 if v:IsA("Frame") then
+							 if v:WaitForChild("content"):FindFirstChild("icon"):IsA("ImageLabel") then
+								 if v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870325376" then
+									 RewardType = "Coins"
+									 RewardAmount = tonumber(v.content.textLabel.Text)
+									 break
+								 elseif v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
+									 RewardType = "Gems"
+									 RewardAmount = tonumber(v.content.textLabel.Text)
+								 end
+							 end
+						 end
+					 end
+				 end
+				return {RewardType, RewardAmount}
+			end
+			
 			warn("Connection Ran!?")
 			prints("GameOver Changed")
 			local Remote
