@@ -31,6 +31,7 @@ return function(self, p1)
             SkipCheck = true
         end)
         repeat
+            print("Upgrade",Tower,TowersCheckHandler(Tower))
             if not TowersCheckHandler(Tower) then
                 prints("End Upgrade",Wave, Min, Sec, InWave)
                 return
