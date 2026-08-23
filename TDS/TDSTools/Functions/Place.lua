@@ -173,13 +173,9 @@ return function(self, p1)
         ["TopPathUpgrade"] = 0,
         ["BottomPathUpgrade"] = 0
     }
-<<<<<<< HEAD
     for k, v in pairs(TowersContained) do
         print(k, v)
     end
-=======
-    print(#TowersContained,TowersContained[TempNum])
->>>>>>> 063a35b3c1367e3ea9a8fbc28fa27d8d3c72772e
 
     local CurrentCount = StratXLibrary.CurrentCount
     local TowerTable = TowersContained[TempNum]
