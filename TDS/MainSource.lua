@@ -1236,7 +1236,7 @@ Functions.MatchMaking = function()
 
     -- // AutoSkip & Auto Start Game
 	local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
-	task.delay(2,function()
+	task.delay(4,function()
 		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
 				repeat task.wait() until StratXLibrary.Executed
@@ -1346,14 +1346,14 @@ getgenv().maintenance = true
 
 function Strat.new()
 	local playerId = game:GetService("Players").LocalPlayer.UserId
-    --[[for _,id in ipairs(easyBlackList) do
+    for _,id in ipairs(easyBlackList) do
     	if id == playerId then
     		return
     	end
     end
 	if getgenv().maintenance then
 		return
-	end]]
+	end
 	local t = setmetatable({}, Strat)
 	for Funcname, Functable in next, StratXLibrary.Functions do
 		t[Funcname] = {
@@ -1468,4 +1468,5 @@ task.spawn(function()
 end)
 prints(`Loaded Library. Took: {math.floor((os.clock() - OldTime)*1000)/1000}s`)
 StratXLibrary.Executed = true
+task.wait(1)
 return Strat.new()
