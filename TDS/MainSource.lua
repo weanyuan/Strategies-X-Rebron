@@ -1237,7 +1237,7 @@ Functions.MatchMaking = function()
     -- // AutoSkip & Auto Start Game
 	local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
 	task.delay(4,function()
-		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
+		if VoteGUI:WaitForChild("container",10):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
 				repeat task.wait() until StratXLibrary.Executed
 				RemoteFunction:InvokeServer("Voting", "Skip")
