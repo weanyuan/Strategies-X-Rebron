@@ -534,7 +534,7 @@ if CheckPlace() then
     local RSMap = ReplicatedStorage:WaitForChild("State"):WaitForChild("Map") --map's Name
     local RSHealthCurrent = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Current") -- your current base hp
     local RSHealthMax = ReplicatedStorage:WaitForChild("State"):WaitForChild("Health"):WaitForChild("Max") -- your max hp
-    local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes") -- it is what it is
+	 -- it is what it is
     --local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 	if #Players:GetChildren() > 1 and getgenv().Multiplayer["Enabled"] == false then
 		TeleportService:Teleport(3260590327, LocalPlayer)
@@ -662,7 +662,7 @@ if CheckPlace() then
 		-- // End Of Match
 		local MatchGui = LocalPlayer.PlayerGui:WaitForChild("ReactGameNewRewards"):WaitForChild("Frame"):WaitForChild("gameOver") -- end result
 		local Info = MatchGui:WaitForChild("RewardsScreen")
-		local Rewards = Info:WaitForChild("RewardsSection")
+		local Rewards = Info:WaitForChild("RewardsSection",math.huge)
 
 		function CheckReward()
 			local RewardType, RewardAmount
@@ -1235,6 +1235,7 @@ Functions.MatchMaking = function()
 	ConsoleInfo(`Map Selected: {MapProps.Map}, Mode: {MapProps.Mode}, Solo Only: {MapProps.Solo}`)
 
     -- // AutoSkip & Auto Start Game
+	local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
 	task.delay(2,function()
 		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
