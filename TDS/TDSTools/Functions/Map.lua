@@ -166,6 +166,7 @@ return function(self, p1)
                 until MapProps
                 local DiffTable = {
                     ["Easy"] = "Easy",
+                    ["Casual"] = "Casual",
                     ["Normal"] = "Molten",
                     ["Intermediate"] = "Intermediate",
                     ["Fallen"] = "Fallen",
