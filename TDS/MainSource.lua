@@ -1235,9 +1235,9 @@ Functions.MatchMaking = function()
 	ConsoleInfo(`Map Selected: {MapProps.Map}, Mode: {MapProps.Mode}, Solo Only: {MapProps.Solo}`)
 
     -- // AutoSkip & Auto Start Game
-	task.delay(1,function()
-		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes"):WaitForChild("container")
-		if VoteGUI:WaitForChild("prompt").Text == "Ready?" then --Event GameMode
+	task.delay(2,function()
+		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame"):WaitForChild("votes")
+		if VoteGUI:WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
 				repeat task.wait() until StratXLibrary.Executed
 				RemoteFunction:InvokeServer("Voting", "Skip")
@@ -1245,6 +1245,8 @@ Functions.MatchMaking = function()
 			end)
 		end
 		StratXLibrary.ReadyState = false
+		task.wait(5)
+		VoteGUI = VoteGUI:WaitForChild("vote")
 		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
 			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
 				repeat
