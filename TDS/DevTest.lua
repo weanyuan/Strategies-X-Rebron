@@ -2,7 +2,7 @@ if game.PlaceId ~= 3260590327 and game.PlaceId ~= 5591597781 then return end
 task.wait(.9)
 local OldTime = os.clock()
 
-getgenv().ExecDis = true --Don't remove this. It's necessary since the "Built In Auto Exec" can break the strat.
+_G.ExecDis = true --Don't remove this. It's necessary since the "Built In Auto Exec" can break the strat.
 
 --Below here is the library of Strat Loader
 local Version = "Version: 0.6 Build 3 Dev-Test"
@@ -22,8 +22,8 @@ task.spawn(function()
     IsPlayerInGroup = game:GetService("Players").LocalPlayer:IsInGroup(4914494)
 end)
 
-getgenv().Config = {}
-getgenv().FeatureConfig = {
+_G.Config = {}
+_G.FeatureConfig = {
     ["JoinLessFeature"] = {
         Enabled = false;
         ActiveWhen = 12;
@@ -46,16 +46,16 @@ if not isfolder("StratLoader/UserLogs") then
     makefolder("StratLoader/UserLogs")
 end
 if isfile("StratLoader/UserConfig/Config.txt") then
-    getgenv().Config = cloneref(game:GetService("HttpService")):JSONDecode(readfile("StratLoader/UserConfig/Config.txt"))
+    _G.Config = cloneref(game:GetService("HttpService")):JSONDecode(readfile("StratLoader/UserConfig/Config.txt"))
 else
     writefile("StratLoader/UserConfig/Config.txt",cloneref(game:GetService("HttpService")):JSONEncode(Config))
 end
 if isfile("StratLoader/UserConfig/FeatureConfig.txt") then
-    getgenv().FeatureConfig = cloneref(game:GetService("HttpService")):JSONDecode(readfile("StratLoader/UserConfig/FeatureConfig.txt"))
+    _G.FeatureConfig = cloneref(game:GetService("HttpService")):JSONDecode(readfile("StratLoader/UserConfig/FeatureConfig.txt"))
 else
     writefile("StratLoader/UserConfig/FeatureConfig.txt",cloneref(game:GetService("HttpService")):JSONEncode(FeatureConfig))
 end
-getgenv().WriteFile = function(check,name,location,str)
+_G.WriteFile = function(check,name,location,str)
     if not check then
         return
     end
@@ -74,7 +74,7 @@ getgenv().WriteFile = function(check,name,location,str)
         error("Argument 2 must be a string got " .. tostring(number))
     end
 end
-getgenv().AppendFile = function(check,name,location,str)
+_G.AppendFile = function(check,name,location,str)
     if not check then
         return
     end
@@ -318,10 +318,10 @@ local Time = tostring(os.clock() - OldTime)
 --print("API Library's Loaded:",Time)
 appendlog("Library's API Loaded: "..Time)
 
-getgenv().MinimizeClient = function(boolean)
+_G.MinimizeClient = function(boolean)
     local boolean = boolean or (boolean == nil and true)
-    if not getgenv().FirstTime then
-        getgenv().FirstTime = {
+    if not _G.FirstTime then
+        _G.FirstTime = {
             GlobalShadow = game:GetService("Lighting").GlobalShadows,
             PhysicsThrottle = settings().Physics.PhysicsEnvironmentalThrottle,
             OldQuality = settings():GetService("RenderSettings").QualityLevel,
@@ -342,12 +342,12 @@ getgenv().MinimizeClient = function(boolean)
         pcall(function()
             setfpscap(60)
         end)
-        settings():GetService("RenderSettings").QualityLevel = getgenv().FirstTime.OldQuality
-        settings().Physics.PhysicsEnvironmentalThrottle = getgenv().FirstTime.PhysicsThrottle
+        settings():GetService("RenderSettings").QualityLevel = _G.FirstTime.OldQuality
+        settings().Physics.PhysicsEnvironmentalThrottle = _G.FirstTime.PhysicsThrottle
         if sethiddenproperty then
-            sethiddenproperty(game:GetService("Lighting"), "Technology", getgenv().FirstTime.TechLight)
+            sethiddenproperty(game:GetService("Lighting"), "Technology", _G.FirstTime.TechLight)
         end
-        game:GetService("Lighting").GlobalShadows = getgenv().FirstTime.GlobalShadow
+        game:GetService("Lighting").GlobalShadows = _G.FirstTime.GlobalShadow
     end
     game:GetService("RunService"):Set3dRenderingEnabled(not boolean)
     for i,v in next, game:GetService("Lighting"):GetChildren() do
@@ -434,7 +434,7 @@ function Loader()
                     return tostring(string):reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
                  end
                 MatchGui:GetPropertyChangedSignal("Visible"):Connect(function()
-                    if readfile("TDS_AutoStrat/Webhook (Logs).txt") ~= "WEBHOOK HERE" and not (type(getgenv().UtilitiesConfig) == "table" and getgenv().UtilitiesConfig.Webhook.DisableCustomLog) then
+                    if readfile("TDS_AutoStrat/Webhook (Logs).txt") ~= "WEBHOOK HERE" and not (type(_G.UtilitiesConfig) == "table" and _G.UtilitiesConfig.Webhook.DisableCustomLog) then
                         local CheckRequest
                         task.spawn(function()
                             local function CheckStatus()
@@ -512,22 +512,22 @@ function Loader()
                         end)
                         repeat task.wait() until type(CheckRequest) == "table"
                     else
-                        repeat task.wait() until type(getgenv().SendCheck) == "table"
+                        repeat task.wait() until type(_G.SendCheck) == "table"
                     end
                     if FeatureConfig["JoinLessFeature"].Enabled then
                         local Min = FeatureConfig["JoinLessFeature"].MinPlr
                         local Max = FeatureConfig["JoinLessFeature"].MaxPlr
                         --print("Rejoin")
-                        if getgenv().ASLibrary and not getgenv().RejoinLobby then
+                        if _G.ASLibrary and not _G.RejoinLobby then
                             return
                         end
                         appendlog("Rejoining JLS After Match")
                         TeleportHandler(3260590327,Min,Max)
                     else
-                        if getgenv().ASLibrary and not getgenv().RejoinLobby then
+                        if _G.ASLibrary and not _G.RejoinLobby then
                             return
                         end
-                        appendlog(getgenv().ASLibrary,getgenv().RejoinLobby)
+                        appendlog(_G.ASLibrary,_G.RejoinLobby)
                         appendlog("Rejoining Back To Lobby")
                         game:GetService("TeleportService"):Teleport(3260590327)
                     end
@@ -557,7 +557,7 @@ function Loader()
         end)
     end
 end
-getgenv().UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/ModificationWallyUi", true))()
+_G.UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/ModificationWallyUi", true))()
 local Time = tostring(os.clock() - OldTime)
 --print("StratLoader Library's Loaded: ",Time)
 appendlog("StratLoader Library's Loaded: "..Time)
@@ -641,7 +641,7 @@ if not (Config[game:GetService("Players").LocalPlayer.Name] and Config[game:GetS
     local rplr = w:SearchBox("Remove Player", {
         location = _G;
         flag = "RemovePlr";
-        list = GetPlayersList(getgenv().Config)
+        list = GetPlayersList(_G.Config)
     }, function(value)
         if #string.gsub(value, "%s*%p*", "") > 0 then
             if (value:match(" ") or value:match(",")) then
@@ -683,11 +683,11 @@ if not (Config[game:GetService("Players").LocalPlayer.Name] and Config[game:GetS
             if type(PlayerRemove) == "table" and PlayerRemove[1] then
                 for i =1, #PlayerRemove do
                     Config[PlayerRemove[i]] = nil
-                    rplr.Reload(GetPlayersList(getgenv().Config))
+                    rplr.Reload(GetPlayersList(_G.Config))
                 end
             else
                 Config[PlayerRemove] = nil
-                rplr.Reload(GetPlayersList(getgenv().Config))
+                rplr.Reload(GetPlayersList(_G.Config))
             end
         end
         if w.flags.StratFullName and isfile(GetFilePath("StratLoader",w.flags.StratFullName)) then
@@ -716,7 +716,7 @@ if not (Config[game:GetService("Players").LocalPlayer.Name] and Config[game:GetS
                         })
                     end
                 end
-                rplr.Reload(GetPlayersList(getgenv().Config))
+                rplr.Reload(GetPlayersList(_G.Config))
             end
             writefile("StratLoader/UserConfig/Config.txt", cloneref(game:GetService("HttpService")):JSONEncode(Config))
         else
@@ -742,7 +742,7 @@ if not (Config[game:GetService("Players").LocalPlayer.Name] and Config[game:GetS
     end)
 
     w:Button("Print Config",function()
-        for i,v in next,getgenv().Config do
+        for i,v in next,_G.Config do
             if type(v) == "table" then
                 for i2,v2 in next,v do
                     print(i,i2,v2)
@@ -765,7 +765,7 @@ elseif not FeatureConfig["StrategiesX"] then
     if game.PlaceId == 5591597781 then
         local Holder2 = UILibrary:CreateWindow('PlaceHolder')
         Holder2["object"].Visible = false
-        if type(getgenv().StratCreditsAuthor) == "string" then
+        if type(_G.StratCreditsAuthor) == "string" then
             local Holder3 = UILibrary:CreateWindow('PlaceHolder')
             Holder3["object"].Visible = false
         end
@@ -858,4 +858,4 @@ end
 local Time = tostring(os.clock() - OldTime)
 --print("Total Time Loaded:",Time)
 appendlog("Total Time Loaded: "..Time)
-getgenv().AppendFile(true,game.Players.LocalPlayer.Name.."'s log","StratLoader/UserLogs","\n--------------------------- Strat's log ---------------------------\n")
+_G.AppendFile(true,game.Players.LocalPlayer.Name.."'s log","StratLoader/UserLogs","\n--------------------------- Strat's log ---------------------------\n")

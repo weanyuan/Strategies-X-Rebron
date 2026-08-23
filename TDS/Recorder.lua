@@ -35,7 +35,7 @@ if game.PlaceId ~= 3260590327 then
     CheckFolderExists(LocalFolder.."UserLogs")
     CheckFolderExists(LocalFolder.."Recorder")
 
-    getgenv().WriteFile = function(check,name,location,str)
+    _G.WriteFile = function(check,name,location,str)
         if not check then
             return
         end
@@ -54,7 +54,7 @@ if game.PlaceId ~= 3260590327 then
             error("Argument 2 must be a string got " .. tostring(number))
         end
     end
-    getgenv().AppendFile = function(check,name,location,str)
+    _G.AppendFile = function(check,name,location,str)
         if not check then
             return
         end
@@ -109,17 +109,17 @@ if game.PlaceId ~= 3260590327 then
             return AppendFile(true,LocalPlayer.Name.."'s strat",LocalFolder.."Recorder",tostring(Text).."\n")
         end)
     end
-    getgenv().Recorder = {
+    _G.Recorder = {
         Troops = {
             Golden = {},
         },
         TowersList = {},
     }
-    getgenv().TowersList = Recorder.TowersList
+    _G.TowersList = Recorder.TowersList
     local TowerCount = 0
     local GetMode = nil
 
-    local UILibrary = getgenv().UILibrary or loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/ModificationWallyUi", true))()
+    local UILibrary = _G.UILibrary or loadstring(game:HttpGet("https://raw.githubusercontent.com/Sigmanic/ROBLOX/main/ModificationWallyUi", true))()
     UILibrary.options.toggledisplay = 'Fill'
 
     local mainwindow = UILibrary:CreateWindow('Recorder')
@@ -155,7 +155,7 @@ if game.PlaceId ~= 3260590327 then
     end
 
     --[[local GameInfo
-    getgenv().GetGameInfo = function()
+    _G.GetGameInfo = function()
         if GameInfo then
             return GameInfo
         end
@@ -170,7 +170,7 @@ if game.PlaceId ~= 3260590327 then
         until GameInfo
     end
     local VoteState
-    getgenv().GetVoteState = function()
+    _G.GetVoteState = function()
         if VoteState then
             return VoteState
         end
@@ -391,7 +391,7 @@ if game.PlaceId ~= 3260590327 then
             end
         end
     end
-    writestrat("getgenv().StratCreditsAuthor = \"Optional\"")
+    writestrat("_G.StratCreditsAuthor = \"Optional\"")
     appendstrat("local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/weanyuan/Strategies-X-Rebron/refs/heads/main/TDS/MainSource.lua\", true))()\nTDS:Map(\""..
     RSMap.Value.."\", true, \""..RSMode.Value.."\")\nTDS:Loadout({\""..
         table.concat(Recorder.Troops, `", "`) .. if #Recorder.Troops.Golden ~= 0 then "\", [\"Golden\"] = {\""..

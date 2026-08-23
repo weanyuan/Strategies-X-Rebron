@@ -251,7 +251,7 @@ return function(self, p1)
         if ErrorModel then
             ErrorModel.Parent = PreviewHolder
         end
-        if getgenv().Debug then
+        if _G.Debug then
             task.spawn(DebugTower,TowerTable.Instance)
         end
         local TowerType = GetTypeIndex(tableinfo["TypeIndex"],TempNum)

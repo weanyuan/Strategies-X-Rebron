@@ -14,7 +14,7 @@ local MinimizeConfig = {
         Set3dRenderingEnabled = false,
     }
 }
-getgenv().MinimizeClient = getgenv().MinimizeClient or function(boolean)
+_G.MinimizeClient = _G.MinimizeClient or function(boolean)
     local boolean = if type(boolean) == "boolean" then boolean else true
     if not MinimizeConfig[false] then
         MinimizeConfig[false] = {

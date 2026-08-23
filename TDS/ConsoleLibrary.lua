@@ -3,7 +3,7 @@ local ConsoleUI = if getthreadidentity and getthreadidentity() < 7 then loadstri
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-getgenv().WriteFile = WriteFile or function(check,name,location,str)
+_G.WriteFile = WriteFile or function(check,name,location,str)
     if not check then
         return
     end
@@ -22,7 +22,7 @@ getgenv().WriteFile = WriteFile or function(check,name,location,str)
         error("Argument 2 must be a string got " .. tostring(number))
     end
 end
-getgenv().AppendFile = AppendFile or function(check,name,location,str)
+_G.AppendFile = AppendFile or function(check,name,location,str)
     if not check then
         return
     end
@@ -70,7 +70,7 @@ local Typelist = {
     ["Error"] = Color3.fromRGB(255, 0, 0),
 }
 
-getgenv().ConsolePrint = function(Color,Type,...)
+_G.ConsolePrint = function(Color,Type,...)
     local Color = typeof(Color) == "Color3" and Color or Color3.fromRGB(255, 255, 255)
     local Type = type(Type) == "string" and Type or "Info"
     local String = ""
@@ -109,9 +109,9 @@ getgenv().ConsolePrint = function(Color,Type,...)
             error("["..os.date("%X").."]["..Type.."] "..String)
         end)
     end
-    getgenv().AppendFile(true,LocalPlayer.Name.."'s log","StrategiesX/UserLogs","["..os.date("%X").."]["..Type.."] "..String.."\n")
+    _G.AppendFile(true,LocalPlayer.Name.."'s log","StrategiesX/UserLogs","["..os.date("%X").."]["..Type.."] "..String.."\n")
 end
-getgenv().ConsoleInfo = function(...)
+_G.ConsoleInfo = function(...)
     local TableText = {...}
     for i,v in next, TableText do
         if type(v) ~= "string" then
@@ -121,7 +121,7 @@ getgenv().ConsoleInfo = function(...)
     local Text = table.concat(TableText, " ")
     ConsolePrint(Typelist["Info"],"Info",Text)
 end
-getgenv().ConsoleWarn = function(...)
+_G.ConsoleWarn = function(...)
     local TableText = {...}
     for i,v in next, TableText do
         if type(v) ~= "string" then
@@ -131,7 +131,7 @@ getgenv().ConsoleWarn = function(...)
     local Text = table.concat(TableText, " ")
     ConsolePrint(Typelist["Warn"],"Warn",Text)
 end
-getgenv().ConsoleError = function(...)
+_G.ConsoleError = function(...)
     local TableText = {...}
     for i,v in next, TableText do
         if type(v) ~= "string" then
@@ -141,6 +141,6 @@ getgenv().ConsoleError = function(...)
     local Text = table.concat(TableText, " ")
     ConsolePrint(Typelist["Error"],"Error",Text)
 end
-getgenv().ConsoleTable = function(...)
+_G.ConsoleTable = function(...)
     ConsolePrint(Typelist["Info"],"Table",...)
 end

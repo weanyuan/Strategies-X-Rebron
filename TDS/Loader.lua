@@ -1,9 +1,9 @@
 if game.PlaceId ~= 3260590327 and game.PlaceId ~= 5591597781 then return end
-if getgenv().StrategiesXLoader then
+if _G.StrategiesXLoader then
     return
 end
-getgenv().ExecDis = true
-if getgenv().Config then
+_G.ExecDis = true
+if _G.Config then
     return
 end
 local OldTime = os.clock()
@@ -17,7 +17,7 @@ elseif not isfolder("StrategiesX/UserConfig") then
     makefolder("StrategiesX/UserConfig")
 end
 
-getgenv().WriteFile = function(check,name,location,str)
+_G.WriteFile = function(check,name,location,str)
     if not check then
         return
     end
@@ -36,7 +36,7 @@ getgenv().WriteFile = function(check,name,location,str)
         error("Argument 2 must be a string got " .. tostring(number))
     end
 end
-getgenv().AppendFile = function(check,name,location,str)
+_G.AppendFile = function(check,name,location,str)
     if not check then
         return
     end
@@ -125,5 +125,5 @@ OldHook = hookfunction(game.HttpGet, function(Self, Url, ...)
     end
     return OldHook(Self, Url, ...)
 end)
-getgenv().StrategiesXLoader = true
+_G.StrategiesXLoader = true
 appendlog("Strategies X Loader Loaded: "..tostring(os.clock() - OldTime))
