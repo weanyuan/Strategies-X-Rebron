@@ -518,7 +518,8 @@ else
 end
 prints("Group Checking Completed")
 maintab:Button("Join Server For More Strat",function()
-	setclipboard("https://discord.gg/RWGUGV3YTj")
+	--RIP https://discord.gg/RWGUGV3YTj
+	setclipboard("https://discord.gg/YyMFFMBxtR")
 end)
 maintab:Section(Version)
 maintab:Section(`Current Place: {CheckPlace() and "Ingame" or "Lobby"}`)
