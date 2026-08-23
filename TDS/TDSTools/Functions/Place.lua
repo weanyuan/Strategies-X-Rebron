@@ -192,6 +192,9 @@ return function(self, p1)
         if not TimeWaveWait(Wave, Min, Sec, InWave, tableinfo["Debug"]) then
             return
         end
+        if GetCurrentWave() == 0 then
+            task.wait(.5)
+        end
         TowerTable.PassedTimer = true
         local PlaceCheck, ErrorModel
         task.delay(45, function()
