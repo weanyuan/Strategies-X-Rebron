@@ -702,7 +702,7 @@ if CheckPlace() then
 			task.wait(1)
 			local PlayerInfo = StratXLibrary.UI.PlayerInfo
 			local GetRewardInfo = CheckReward()
-			PlayerInfo.Property[MatchGui:WaitForChild("banner"):WaitForChild("textLabel").Text == "TRIUMPH!" and "Triumphs" or "Loses"] += 1
+			PlayerInfo.Property[MatchGui:WaitForChild("RewardBanner"):WaitForChild("textLabel").Text == "TRIUMPH!" and "Triumphs" or "Loses"] += 1
 			if Rewards:FindFirstChild(2) then
 			    PlayerInfo.Property[GetRewardInfo[1]] += GetRewardInfo[2]
 			end
