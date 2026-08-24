@@ -202,7 +202,7 @@ if game.PlaceId ~= 3260590327 then
     end)
 
     function GetCurrentWave()
-        return string.match(GameWave.Text, "(.+)/") or 0
+        return tonumber(string.match(GameWave.Text, "(.+)/")) or 0
     end
 
     function GetTimer()
@@ -394,7 +394,7 @@ if game.PlaceId ~= 3260590327 then
             end
         end
     end
-    writestrat("getgenv().MatchMaking = true\ngetgenv().StratCreditsAuthor = \"Optional\"")
+    writestrat("getgenv().MatchMaking = true\ngetgenv().DefaultCam = 1\ngetgenv().StratCreditsAuthor = \"Optional\"")
     appendstrat("local TDS = loadstring(game:HttpGet(\"https://raw.githubusercontent.com/weanyuan/Strategies-X-Rebron/refs/heads/main/TDS/MainSource.lua\", true))()\nTDS:Map(\""..
     RSMap.Value.."\", true, \""..RSMode.Value.."\")\nTDS:Loadout({\""..
         table.concat(Recorder.Troops, `", "`) .. if #Recorder.Troops.Golden ~= 0 then "\", [\"Golden\"] = {\""..
