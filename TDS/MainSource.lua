@@ -691,7 +691,7 @@ if CheckPlace() then
 		end
 
 		warn("Connected?")
-		StratXLibrary.SignalMatchEnd = MatchGui:GetAttributeChangedSignal("Visible"):Connect(function()
+		StratXLibrary.SignalMatchEnd = MatchGui:GetPropertyChangedSignal("Visible"):Connect(function()
 			warn("Connection Ran!?")
 			prints("GameOver Changed")
 			local Remote
