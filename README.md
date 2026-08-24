@@ -57,7 +57,7 @@ Or any executors that support the following libraries/functions:
 
 ## FAQ
 Where's the Discord server link?  
-[![]()](https://discord.gg/YyMFFMBxtR)
+[Discord](https://discord.gg/YyMFFMBxtR)
 
 I found a bug, where do I report it?
 * You can report it in [Issues](https://github.com/Sigmanic/Strategies-X/issues).
