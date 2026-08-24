@@ -674,14 +674,14 @@ if CheckPlace() then
 			if Rewards:FindFirstChild(2) then -- If Rewards[2] Found
 				 for i,v in ipairs(Rewards:GetChildren()) do
 					 if v:IsA("Frame") then
-						 if v:WaitForChild("content"):FindFirstChild("icon"):IsA("ImageLabel") then
-							 if v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870325376" then
+						 if v:WaitForChild("icon"):FindFirstChild("icon"):IsA("ImageLabel") then
+							 if v:WaitForChild("icon"):FindFirstChild("icon").Image == "rbxassetid://128907328829271" then
 								 RewardType = "Coins"
-								 RewardAmount = tonumber(v.content.textLabel.Text)
+								 RewardAmount = tonumber(v.icon.icon.textLabel.Text)
 								 break
-							 elseif v:WaitForChild("content"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
+							 elseif v:WaitForChild("icon"):FindFirstChild("icon").Image == "rbxassetid://5870383867" then
 								 RewardType = "Gems"
-								 RewardAmount = tonumber(v.content.textLabel.Text)
+								 RewardAmount = tonumber(v.icon.icon.textLabel.Text)
 							 end
 						 end
 					 end
@@ -784,7 +784,8 @@ if CheckPlace() then
        					task.spawn(function()
        						ReplicatedStorage.RemoteFunction:InvokeServer("TicketsManager", "UnlockTimeScale")
        					task.wait(0.5)
-       						ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
+						   ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
+						   ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
        					end)
 					end
 				end
