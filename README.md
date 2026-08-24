@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <h3 align="center">Strategies X [LEGACY]</h3>
+  <h3 align="center">Strategies X [Remaking]</h3>
 
   <p align="center">
     TDS AutoStrat Toolkit - inspired by MoneyMaker's AutoStrat, that aims to be fully open-sourced and advanced tool.
@@ -53,10 +53,11 @@ Or any executors that support the following libraries/functions:
 * **xeonise (or zxk2021)**, for giving ideas, codes solutions, recently multiplayer testing.
 * **SkremGah**, for a better Webhook management, ideal suggestions.
 * **Velarance**, for contributing the recorder.
+* **weanyuan**, for remaking
 
 ## FAQ
 Where's the Discord server link?  
-[![](https://dcbadge.vercel.app/api/server/RWGUGV3YTj)](https://discord.gg/RWGUGV3YTj)
+[![](https://dcbadge.vercel.app/api/server/YyMFFMBxtR)](https://discord.gg/YyMFFMBxtR)
 
 I found a bug, where do I report it?
 * You can report it in [Issues](https://github.com/Sigmanic/Strategies-X/issues).
