@@ -703,7 +703,7 @@ if CheckPlace() then
 			local PlayerInfo = StratXLibrary.UI.PlayerInfo
 			local GetRewardInfo = CheckReward()
 			PlayerInfo.Property[Info:WaitForChild("RewardBanner"):WaitForChild("textLabel").Text == "TRIUMPH!" and "Triumphs" or "Loses"] += 1
-			if Rewards:FindFirstChild(2) then
+			if Rewards:FindFirstChild(2) and PlayerInfo.Property[GetRewardInfo[1]] then
 			    PlayerInfo.Property[GetRewardInfo[1]] += GetRewardInfo[2]
 			end
 			--[[for i,v in next, PlayerInfo.Property do
