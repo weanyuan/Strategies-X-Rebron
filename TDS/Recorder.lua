@@ -354,8 +354,8 @@ if game.PlaceId ~= 3260590327 then
     local Skipped = false
     task.spawn(function()
         repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
-        VoteGUI:FindFirstChild("votes"):FindFirstChild("vote"):GetPropertyChangedSignal("Position"):Connect(function()
-            print("Changed")
+        VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
+        VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
             repeat task.wait() until mainwindow.flags.autoskip
             if Skipped or VoteGUI:WaitForChild("count").Text ~= "0/1 Required" then
                 return
