@@ -365,7 +365,7 @@ if game.PlaceId ~= 3260590327 then
             if currentPrompt == "Skip Wave?" and GetCurrentWave() ~= 0 then
                 Skipped = true
                 local Timer = GetTimer()
-                task.spawn(GenerateFunction["Skip"], true, Timer)
+                --task.spawn(GenerateFunction["Skip"], true, Timer)
                 ReplicatedStorage.RemoteFunction:InvokeServer("Voting", "Skip")
                 task.wait(2.5)
                 Skipped = false

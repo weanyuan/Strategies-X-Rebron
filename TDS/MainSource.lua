@@ -479,6 +479,53 @@ function GetTowersInfo()
 	return GetResult
 end
 
+function AutoStart()
+    -- // AutoSkip & Auto Start Game
+	task.spawn(function()
+		if StratXLibrary.VoteState then
+			StratXLibrary.VoteState:Disconnect()
+			StratXLibrary.VoteState = nil
+		end
+		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame")
+		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("container")
+		StratXLibrary.ReadyState = false
+		if VoteGUI:WaitForChild("votes"):WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
+			task.spawn(function()
+				repeat task.wait() until StratXLibrary.Executed
+				RemoteFunction:InvokeServer("Voting", "Skip")
+				StratXLibrary.ReadyState = true
+				prints("Ready Signal Fired")
+			end)
+		end
+		
+		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
+		print("Got Vote")
+		VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
+		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
+	
+			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
+				repeat
+					task.wait()
+				until VoteGUI:WaitForChild("count").Text == `0/{#Players:GetChildren()} Required`
+			end
+			if VoteGUI.Position ~= UDim2.new(0.5, 0, 0.5, 0) then --UDim2.new(scale_x, offset_x, scale_y, offset_y)
+				return
+			end
+			local currentPrompt = VoteGUI:WaitForChild("prompt").Text
+			if not UtilitiesConfig.AutoSkip then
+				return
+			end
+			if currentPrompt == "Skip Wave?" then
+				RemoteFunction:InvokeServer("Voting", "Skip")
+				SetActionInfo("Skip","Total")
+				SetActionInfo("Skip")
+				local wave = GetCurrentWave()
+				ConsoleInfo(`Skipped Wave {wave}`)
+			end
+		end)
+	end)
+end
+
 -- // Main Ui Setup
 StratXLibrary.UI.maintab = UILibrary:CreateWindow("Strategies X")
 maintab = StratXLibrary.UI.maintab
@@ -758,6 +805,7 @@ if CheckPlace() then
 					until VoteCheck
 					prints("VoteCheck Passed")
 				end)
+				AutoStart()
 				repeat task.wait() until StratXLibrary.ReadyState or (GetCurrentWave() ~= nil and GetCurrentWave() <= 1) or (RSHealthCurrent.Value == RSHealthMax.Value)
 				prints("Prepare Set All ListNum To 1")
 				StratXLibrary.CurrentCount = StratXLibrary.RestartCount
@@ -1239,59 +1287,7 @@ Functions.MatchMaking = function()
 	StratXLibrary.Strat.ChosenID = Index
 	ConsoleInfo(`Map Selected: {MapProps.Map}, Mode: {MapProps.Mode}, Solo Only: {MapProps.Solo}`)
 
-    -- // AutoSkip & Auto Start Game
-	task.delay(4,function()
-		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame")
-		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("container")
-		if VoteGUI:WaitForChild("votes"):WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
-			task.spawn(function()
-				repeat task.wait() until StratXLibrary.Executed
-				RemoteFunction:InvokeServer("Voting", "Skip")
-				prints("Ready Signal Fired")
-			end)
-		end
-		StratXLibrary.ReadyState = false
-		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
-		print("Got Vote")
-		VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
-		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
-			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
-				repeat
-					task.wait()
-				until VoteGUI:WaitForChild("count").Text == `0/{#Players:GetChildren()} Required`
-			end
-			if VoteGUI.Position ~= UDim2.new(0.5, 0, 0.5, 0) then --UDim2.new(scale_x, offset_x, scale_y, offset_y)
-				return
-			end
-			local currentPrompt = VoteGUI:WaitForChild("prompt").Text
-			   if currentPrompt == "Ready?" or currentPrompt == "Skip Cutscene?" then --Event GameMode
-			task.wait(0.5)
-				   RemoteFunction:InvokeServer("Voting", "Skip")
-				   StratXLibrary.ReadyState = true
-				if currentPrompt == "Ready?" then
-					prints("Ready Signal Fired")
-				elseif currentPrompt == "Skip Cutscene?" then
-					prints("Skipped Cutscene")
-				end
-				   return
-			   end
-			   if not UtilitiesConfig.AutoSkip then
-				   repeat
-					   task.wait()
-					   if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
-						   return
-					   end
-				   until UtilitiesConfig.AutoSkip
-			   end
-			   if currentPrompt == "Skip Wave?" then
-				   RemoteFunction:InvokeServer("Voting", "Skip")
-				   SetActionInfo("Skip","Total")
-				   SetActionInfo("Skip")
-				   local wave = GetCurrentWave()
-				   ConsoleInfo(`Skipped Wave {wave}`)
-			   end
-		end)
-	end)
+	AutoStart()
 end
 
 --Side modes that aren't main ones
