@@ -771,7 +771,7 @@ if CheckPlace() then
 			if UtilitiesConfig.RestartMatch and RSHealthCurrent.Value == 0 then --StratXLibrary.RestartCount <= UtilitiesConfig.RestartTimes
 				prints(`Match Lose. Strat Will Restart Shortly`)
 				StratXLibrary.ReadyState = false
-				task.wait(3)
+				task.wait(1)
 				for i,v in ipairs(_G.TowersContained) do
 					if v.TowerModel then
 						v.TowerModel:Destroy()
@@ -790,7 +790,7 @@ if CheckPlace() then
 				for i,v in next, StratXLibrary.TowerInfo do
 					v[2] = 0
 				end
-				task.wait(5)
+				task.wait(3)
 				prints("VoteCheck")
 				task.spawn(function()
 					local VoteCheck
@@ -1017,10 +1017,10 @@ if CheckPlace() then
   	local GameMode = if Workspace:FindFirstChild("IntermissionLobby") then "Survival" else "Hardcore"
   	local Lobby = if GameMode == "Survival" then "IntermissionLobby" else "HardcoreIntermissionLobby"
   	UtilitiesTab:Toggle("Use Timescale", {flag = "UseTimeScale", default = UtilitiesConfig.UseTimeScale}, function(bool)
-  		if (bool and ReplicatedStorage.State.Mode.Value == "Hardcore") or (bool and Workspace:FindFirstChild(Lobby) == "HardcoreIntermissionLobby") then
+  		--[[if (bool and ReplicatedStorage.State.Mode.Value == "Hardcore") or (bool and Workspace:FindFirstChild(Lobby) == "HardcoreIntermissionLobby") then
   			prints("Timescale Is Not Supported In Hardcore!")
   			return
-  		end
+  		end]]
   		local TimeScaleUI = LocalPlayer.PlayerGui:WaitForChild("ReactUniversalHotbar"):WaitForChild("Frame"):WaitForChild("timescale")
   		prints(`{if bool then "Enabled" else "Disabled"} Timescale`)
         if TimeScaleUI.Visible and bool then
@@ -1028,6 +1028,7 @@ if CheckPlace() then
        		    task.spawn(function()
        			    ReplicatedStorage.RemoteFunction:InvokeServer("TicketsManager", "UnlockTimeScale")
        			task.wait(0.5)
+				    ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
        				ReplicatedStorage.RemoteEvent:FireServer("TicketsManager", "CycleTimeScale")
        		    end)
   		    end
