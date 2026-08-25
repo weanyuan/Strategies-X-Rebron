@@ -193,10 +193,6 @@ return function(self, p1)
             print("Return")
             return
         end
-        print(GetCurrentWave(),"wave")
-        if GetCurrentWave() == 0 then
-            task.wait(3)
-        end
         TowerTable.PassedTimer = true
         local PlaceCheck, ErrorModel
         task.delay(45, function()
@@ -243,9 +239,7 @@ return function(self, p1)
         TowerTable.BottomPathUpgrade = 0
         TowerModel.Parent = PreviewHolder
         TowerTable.DebugTag = DebugTower(TowerTable.Instance,Color3.new(0.35, 0.7, 0.3))
-        for i,v in ipairs(TowerInfo) do
-            print(i,v)
-        end
+
         if not UtilitiesTab.flags.TowersPreview then
             TowerTable.DebugTag.Enabled = false
         end
