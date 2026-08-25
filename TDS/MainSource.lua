@@ -482,7 +482,7 @@ end
 function AutoStart()
     -- // AutoSkip & Auto Start Game
 	task.spawn(function()
-		Warn("AUTO START !!!")
+		warn("AUTO START !!!")
 		if StratXLibrary.VoteState then
 			StratXLibrary.VoteState:Disconnect()
 			StratXLibrary.VoteState = nil
