@@ -1105,6 +1105,9 @@ UtilitiesTab:Section("Universal Settings")
 UtilitiesTab:Toggle("Prefer Matchmaking", {flag = "PreferMatchmaking", default = UtilitiesConfig.PreferMatchmaking})
 UtilitiesTab:Toggle("Auto Skip Wave", {flag = "AutoSkip", default = UtilitiesConfig.AutoSkip})
 UtilitiesTab:Toggle("Low Graphics Mode", {default = UtilitiesConfig.LowGraphics or false, flag = "LowGraphics"}, function(bool)
+	if not StratXLibrary.LowGraphics then 
+		repeat task.wait() until StratXLibrary.LowGraphics
+	end
 	StratXLibrary.LowGraphics(bool)
 end)
 UtilitiesTab:Toggle("Bypass Group Checking",{default = UtilitiesConfig.BypassGroup or false, flag = "BypassGroup"})
