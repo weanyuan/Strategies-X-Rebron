@@ -79,7 +79,7 @@ StratXLibrary.LowGraphics = function(bool)
     if bool then
         if Location == "Lobby" and not CheckPlace() then
             for i,v in next, Workspace:WaitForChild("Lobby"):GetChildren() do
-                if v.Name == "SpawnArea" then continue end
+                if v.Name == "SpawnArea" or v:IsA("PackageLink") then continue end --包链接
                 v.Parent = Folder
             end
         elseif Location == "Map" and CheckPlace() then
