@@ -488,7 +488,7 @@ function AutoStart()
 			StratXLibrary.VoteState = nil
 		end
 		local VoteGUI = LocalPlayer.PlayerGui:WaitForChild("ReactOverridesVote"):WaitForChild("Frame")
-		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("container")
+		repeat task.wait() until VoteGUI:FindFirstChild("votes") and VoteGUI:FindFirstChild("votes"):FindFirstChild("container")
 		StratXLibrary.ReadyState = false
 		if VoteGUI:WaitForChild("votes"):WaitForChild("container"):WaitForChild("prompt").Text == "Ready?" then --Event GameMode
 			task.spawn(function()
@@ -499,16 +499,10 @@ function AutoStart()
 			end)
 		end
 		
-		repeat task.wait() until VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
+		repeat task.wait() until VoteGUI:FindFirstChild("votes") and VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
 		print("Got Vote")
 		VoteGUI = VoteGUI:FindFirstChild("votes"):FindFirstChild("vote")
 		StratXLibrary.VoteState = VoteGUI:GetPropertyChangedSignal("Position"):Connect(function()
-	
-			if VoteGUI:WaitForChild("count").Text ~= `0/{#Players:GetChildren()} Required` then
-				repeat
-					task.wait()
-				until VoteGUI:WaitForChild("count").Text == `0/{#Players:GetChildren()} Required`
-			end
 			if VoteGUI.Position ~= UDim2.new(0.5, 0, 0.5, 0) then --UDim2.new(scale_x, offset_x, scale_y, offset_y)
 				return
 			end
